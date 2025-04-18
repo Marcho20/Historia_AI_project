@@ -123,9 +123,9 @@ function Modal({ onClose }) {
                         onClick={togglePasswordVisibility}
                       >
                         {showPassword ? (
-                          <FaEyeSlash className="password-icon" />
+                         <FaEye className="password-icon" /> 
                         ) : (
-                          <FaEye className="password-icon" />
+                          <FaEyeSlash className="password-icon" />
                         )}
                       </button>
                     </div>
