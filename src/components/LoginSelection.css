@@ -1,0 +1,70 @@
+.login-selection-container {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .selection-title {
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
+  
+  .login-options {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .login-option {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 200px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .option-icon {
+    background: #401abe;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: white;
+  }
+  
+  .login-option h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+  }
+  
+  .login-option p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  
+  /* Add different colors for each role */
+  .login-option:nth-child(1) .option-icon {
+    background: #dc3545; /* Admin - Red */
+  }
+  
+  .login-option:nth-child(2) .option-icon {
+    background: #198754; /* Teacher - Green */
+  }
+  
+  .login-option:nth-child(3) .option-icon {
+    background: #0d6efd; /* Student - Blue */
+  }
