@@ -1,0 +1,148 @@
+.help-container {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 80px auto 0;
+    min-height: calc(100vh - 70px);
+}
+
+.help-content {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.help-content h1 {
+    color: #401abe;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.help-card {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.help-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.help-icon {
+    font-size: 2.5rem;
+    color: #401abe;
+    margin-bottom: 20px;
+}
+
+.help-card h2 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.help-card h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: #dcdc14;
+}
+
+.help-card ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.help-card ul li {
+    color: #666;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    position: relative;
+    padding-left: 20px;
+}
+
+.help-card ul li::before {
+    content: '•';
+    color: #dcdc14;
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+}
+
+.help-card p {
+    color: #666;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.contact-button {
+    background: #401abe;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.contact-button:hover {
+    background: #3015a0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(64, 26, 190, 0.2);
+}
+
+.contact-button:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .help-container {
+        padding: 20px;
+        margin-top: 60px;
+    }
+
+    .help-content {
+        padding: 20px;
+    }
+
+    .help-content h1 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+
+    .help-grid {
+        gap: 20px;
+    }
+
+    .help-card {
+        padding: 20px;
+    }
+
+    .help-icon {
+        font-size: 2rem;
+    }
+
+    .help-card h2 {
+        font-size: 1.3rem;
+    }
+} 

@@ -1,0 +1,338 @@
+#container{
+
+    background-color: #dcdc14;
+
+}
+
+
+#title{
+    color:  rgb(36, 80, 167); ;
+}
+
+#login{
+    background-color: blueviolet;
+
+    size: 40px;
+}
+
+.navbar {
+    background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#title {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+}
+
+.modal-content {
+    background: linear-gradient(45deg, #2a2a2a, #1a1a1a);
+    border: none;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-title {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+label {
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+
+/* @transform: translateY(-2px);
+box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+} */
+.modal-body {
+  padding: 0;
+}
+
+.modal {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal-dialog {
+  max-width: 800px !important;
+  width: 95%;
+  margin: 20px auto;
+}
+
+.modal-content {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  border: none;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  color: #333;
+  cursor: pointer;
+  z-index: 1000;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  width: 30px;
+  height: 30px;
+}
+
+.modal-close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  transform: rotate(90deg);
+}
+
+.login-container {
+  display: flex;
+  min-height: 420px; /* Adjust as the modal rigt-left */
+  width: 100%;
+}
+
+.login-left {
+  flex: 1;
+  /* background: #002B5B; */
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  /* padding: 40px;
+  position: relative; */
+  overflow: hidden;
+  padding: 0;
+  background: none;
+
+
+  /* height: 20%; */
+}
+
+.login-right {
+  flex: 0.90; /* Adjust   nya oh e  change yung  width of the right side */
+  padding: 40px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-logo-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* overflow: hidden; */
+  /* padding: 5px; */
+}
+
+.login-logo {
+  width: 100%;
+  /* max-width: 300px; */
+  height: 100%;
+  object-fit: cover; /* Adjust the size of modal in left sakto na sila */
+}
+
+.login-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.input-group:focus-within {
+  border-color: #008374;
+  box-shadow: 0 0 0 4px rgba(0, 131, 116, 0.1);
+  transform: translateY(-1px);
+}
+
+.input-group-text {
+  background: white;
+  border: none;
+  color: #666;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #eee;
+}
+
+.input-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.form-control {
+  border: none;
+  padding: 12px 15px;
+  background: white;
+  color: #333;
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+}
+
+.form-control::placeholder {
+  color: #999;
+}
+
+.btn-signin {
+  background: #008374;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.btn-signin:hover {
+  background: #006d61;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 131, 116, 0.2);
+}
+
+.forgot-password {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.forgot-password a {
+  color: #666;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.forgot-password span {
+  color: #008374;
+}
+
+/* password toggle */
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  z-index: 2;
+}
+.password-toggle:hover {
+  color: #333;
+}
+
+.password-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Adjust the password input padding to prevent text from going under the icon */
+.input-group input[type="password"],
+.input-group input[type="text"] {
+  padding-right: 40px;
+}
+
+/* Responsive Styles */
+@media (max-width: 100px) {
+  .modal-dialog {
+    width: 95%;
+    margin: 12px;
+  }
+
+  .login-container {
+    flex-direction: column;
+    min-height: auto;
+  }
+  
+  .login-left {
+    padding: 20px;
+    min-height: 10px;
+  }
+
+  .login-logo {
+    max-width: 16px;
+  }
+  
+  .login-right {
+    padding: 25px;
+  }
+  
+  .login-title {
+    font-size: 20px;
+    margin-bottom: 202px;
+  }
+
+  .input-group {
+    margin-bottom: 15px;
+  }
+}

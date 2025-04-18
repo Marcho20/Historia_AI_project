@@ -1,0 +1,208 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: #401abe;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 70px;
+    box-sizing: border-box;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 45px;
+    height: 45px;
+    margin-right: 12px;
+    object-fit: contain;
+}
+
+.logo h2 {
+    margin: 0;
+    font-size: 28px;
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.center-logo-container {
+    display: flex;
+    /* justify-content: center; Center horizontally */
+    /* align-items: center; Center vertically */
+    /* height: calc(100vh - 100px); Full viewport height minus header height */
+    /* background-color: #f5f5f5; Optional: Background color */
+    /* background-image: url("../assets/logo1.jpg"); Set the logo as the background */
+    /* background-repeat: no-repeat; Prevent the background from repeating */
+    /* background-position: center; Center the background image */
+    /* background-size: contain; Ensure the logo fits within the container */
+}
+
+.center-logo {
+    width: 150px; /* Adjust logo size */
+    max-width: 300px; /* Ensure it doesn't exceed a maximum size */
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+nav ul li {
+    display: inline;
+    position: relative;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+/* Underline effect */
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #dcdc14;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+nav ul li a:hover::after {
+    width: 80%;
+}
+
+/* Hover effect */
+nav ul li a:hover {
+    color: #dcdc14;
+    transform: translateY(-2px);
+    text-shadow: 0 0 10px rgba(220, 220, 20, 0.3);
+}
+
+/* Active/Click effect */
+nav ul li a:active {
+    transform: translateY(1px);
+    text-shadow: none;
+}
+
+/* Special styling for active link */
+nav ul li a.active {
+    color: #dcdc14;
+}
+
+nav ul li a.active::after {
+    width: 80%;
+    background: #dcdc14;
+}
+
+/* Login button specific styling */
+.login-button {
+    background-color: #dcdc14 !important;
+    color: #401abe !important;
+    padding: 12px 30px !important;
+    border-radius: 25px !important;
+    font-weight: 600 !important;
+    border: 2px solid transparent !important;
+    cursor: pointer;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    margin-left: 20px !important;
+}
+
+.login-button:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 5px 15px rgba(220, 220, 20, 0.4) !important;
+    border-color: #dcdc14 !important;
+    background-color: transparent !important;
+    color: #dcdc14 !important;
+}
+
+.login-button:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(220, 220, 20, 0.3) !important;
+}
+
+/* Add margin to the main content to prevent it from being hidden under the fixed header */
+main {
+    margin-top: 70px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 12px 20px;
+        height: 60px;
+    }
+
+    .logo h2 {
+        font-size: 22px;
+    }
+
+    .logo img {
+        width: 35px;
+        height: 35px;
+        margin-right: 8px;
+    }
+
+    nav ul {
+        gap: 15px;
+    }
+
+    nav ul li a {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .login-button {
+        padding: 8px 20px !important;
+        font-size: 14px !important;
+        margin-left: 10px !important;
+    }
+}
+
+.berean-logo {
+    width: 80%;
+    max-width: 300px;
+}
+
+
+
+
+
