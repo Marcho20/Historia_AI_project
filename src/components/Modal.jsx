@@ -305,20 +305,17 @@ function Modal({ onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Basic validation
     if (!formData.username || !formData.password) {
       toast.error('Please fill in all fields');
       return;
     }
 
-    // Check credentials based on role
     const userCred = userCredentials[selectedRole];
     
     if (formData.username === userCred.username && formData.password === userCred.password) {
       // Successful login
       toast.success('Login successful!');
       
-      // Store user info in localStorage (you might want to use a more secure method in production)
       localStorage.setItem('user', JSON.stringify({
         username: formData.username,
         role: selectedRole
@@ -388,10 +385,11 @@ function Modal({ onClose }) {
                           className="password-toggle"
                           onClick={togglePasswordVisibility}
                         >
-                          {showPassword ? (
-                            <FaEyeSlash className="password-icon" />
-                          ) : (
+                       {showPassword ? (
                             <FaEye className="password-icon" />
+                          ) : (
+                            <FaEyeSlash className="password-icon" />
+
                           )}
                         </button>
                       </div>
