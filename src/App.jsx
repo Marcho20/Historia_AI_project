@@ -4,7 +4,9 @@ import Header from "./components/Header.jsx";
 import About from "./components/About.jsx";
 import Contact from "./components/Contact.jsx";
 import Modal from "./components/Modal.jsx";
- import AdminDashboard from './components/AdminDashboard';
+import AdminDashboard from './components/AdminDashboard';
+// import UserList from './components/UserManagement/UserList';
+// import Home from './components/Home';
 
 import './App.css';
 
@@ -22,15 +24,16 @@ function App() {
   return (
     <Router>
       <div className="App">
-      <Header onLoginClick={openModal} />        
+        <Header onLoginClick={openModal} />        
         <Routes>
+          {/* <Route path="/" element={<Home />} /> */}
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Routes>
 
         {isModalOpen && <Modal onClose={handleCloseModal} />}
-        </div>
+      </div>
     </Router>
   );
 }

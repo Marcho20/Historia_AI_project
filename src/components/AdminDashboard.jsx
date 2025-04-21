@@ -147,16 +147,18 @@ import {
   FaSignOutAlt,
   FaTachometerAlt,
   FaUpload,
-  FaUserGraduate
+  FaUserGraduate,
+  FaCalendarAlt
 } from 'react-icons/fa';
+import Calendar from './Calendar';
+import { UserList } from './UserManagement/UserList';
 import './AdminDashboard.css';
 
 function AdminDashboard() {
-  
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [activeMenu, setActiveMenu] = useState('dashboard');
+  const [activeMenu, setActiveMenu] = useState('calendar');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -184,6 +186,7 @@ function AdminDashboard() {
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <FaTachometerAlt /> },
+    { id: 'calendar', label: 'Calendar', icon: <FaCalendarAlt /> },
     { id: 'manage-users', label: 'Manage Users', icon: <FaUsers /> },
     { id: 'manage-subjects', label: 'Manage Subjects', icon: <FaBook /> },
     { id: 'upload-lessons', label: 'Upload Lessons', icon: <FaUpload /> },
@@ -248,10 +251,13 @@ function AdminDashboard() {
             </div>
           )}
 
+          {activeMenu === 'calendar' && (
+            <Calendar />
+          )}
+
           {activeMenu === 'manage-users' && (
             <div className="section-content">
-              <h2>Manage Users</h2>
-              {/* Add user management content */}
+              <UserList />
             </div>
           )}
 

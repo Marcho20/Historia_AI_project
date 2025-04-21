@@ -1,70 +1,198 @@
-.login-selection-container {
-    padding: 2rem;
+/* LoginSelction.css */
+
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 119%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  position: relative;
+  /* left: 1.2%; */
+}
+
+/* Add new styles for the close button */
+.modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  transform: scale(1.1);
+}
+
+.modal-close:active {
+  background-color: #dc3545;
+  color: white;
+  transform: scale(0.95);
+}
+
+.login-split-container {
+  display: flex;
+  min-height: 750px;
+}
+
+.login-split-left {
+  flex: 1.85;
+  background: #002B5B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+}
+
+.berean-logo {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  object-fit: contain;
+}
+
+.login-split-right {
+  flex: 1.15;
+  padding: 4rem 5rem;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.selection-title {
+  color: #333;
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 3.5rem;
+  text-align: left;
+}
+
+.login-option-content h2 {
+  color: #333;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.login-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  max-width: 100%;
+}
+
+.login-option {
+  display: flex;
+  align-items: center;
+  padding: 2.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+  width: 100%;
+}
+
+.login-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #008374;
+}
+
+.login-option-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2.5rem;
+  font-size: 30px;
+  color: white;
+}
+
+.login-option:nth-child(1) .login-option-icon {
+  background-color: #dc3545;
+}
+
+.login-option:nth-child(2) .login-option-icon {
+  background-color: #198754;
+}
+
+.login-option:nth-child(3) .login-option-icon {
+  background-color: #0d6efd;
+}
+
+.login-option-content {
+  flex: 1;
+}
+
+.login-option-content p {
+  color: #666;
+  font-size: 1.1rem;
+  margin: 0.4rem 0 0;
+}
+
+@media (max-width: 768px) {
+  .login-split-container {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .login-split-left {
+    padding: 3rem;
+    min-height: 320px;
+  }
+
+  .berean-logo {
+    max-width: 280px;
+  }
+
+  .login-split-right {
+    padding: 2.5rem;
+  }
+
+  .selection-title {
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
     text-align: center;
   }
-  
-  .selection-title {
-    color: #333;
-    margin-bottom: 2rem;
-    font-size: 1.8rem;
-    font-weight: 500;
-  }
-  
+
   .login-options {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem;
+    gap: 1.8rem;
   }
-  
+
   .login-option {
-    background: white;
-    border-radius: 12px;
-    padding: 2rem;
-    width: 200px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.8rem;
   }
-  
-  .login-option:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+
+  .login-option-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 1.8rem;
+    font-size: 24px;
   }
-  
-  .option-icon {
-    background: #401abe;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1rem;
-    color: white;
-  }
-  
-  .login-option h3 {
-    color: #333;
-    margin-bottom: 0.5rem;
+
+  .login-option-content h2 {
     font-size: 1.2rem;
   }
-  
-  .login-option p {
-    color: #666;
-    font-size: 0.9rem;
-    margin: 0;
+
+  .login-option-content p {
+    font-size: 1rem;
   }
-  
-  /* Add different colors for each role */
-  .login-option:nth-child(1) .option-icon {
-    background: #dc3545; /* Admin - Red */
-  }
-  
-  .login-option:nth-child(2) .option-icon {
-    background: #198754; /* Teacher - Green */
-  }
-  
-  .login-option:nth-child(3) .option-icon {
-    background: #0d6efd; /* Student - Blue */
-  }
+}

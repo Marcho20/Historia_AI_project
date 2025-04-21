@@ -1,3 +1,6 @@
+// Modal.jsx
+
+
 // import React from "react";
 // // import React, { useState, useEffect } from "react";
 // import { FaUser } from "react-icons/fa";
@@ -306,7 +309,7 @@ function Modal({ onClose }) {
     e.preventDefault();
     
     if (!formData.username || !formData.password) {
-      toast.error('Please fill in all fields');
+      toast.error('Please fill in all fieldss');
       return;
     }
 

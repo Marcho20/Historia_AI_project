@@ -1,61 +1,47 @@
 import React from 'react';
 import './Contact.css';
-import { FaEnvelope, FaPhone, FaQuestionCircle, FaBook } from 'react-icons/fa';
 
-export default function Contact() {
+const Contact = () => {
   return (
-    <div className="help-container">
-      <div className="help-content">
-        <h1>Help Center</h1>
-        
-        <div className="help-grid">
-          <div className="help-card">
-            <div className="help-icon">
-              <FaQuestionCircle />
+    <div className="contact-container">
+      <h1>Contact Us</h1>
+      <div className="contact-content">
+        <div className="contact-info">
+          <h2>Get in Touch</h2>
+          <p>Have questions or need assistance? We're here to help!</p>
+          <div className="contact-details">
+            <div className="contact-item">
+              <i className="fas fa-envelope"></i>
+              <span>support@historia-ai.com</span>
             </div>
-            <h2>FAQs</h2>
-            <ul>
-              <li>How do I get started with HISTORIA: AI?</li>
-              <li>What features are available?</li>
-              <li>How do I track my progress?</li>
-              <li>Can I customize my learning path?</li>
-            </ul>
-          </div>
-
-          <div className="help-card">
-            <div className="help-icon">
-              <FaBook />
+            <div className="contact-item">
+              <i className="fas fa-phone"></i>
+              <span>+1 (555) 123-4567</span>
             </div>
-            <h2>User Guide</h2>
-            <ul>
-              <li>Platform navigation tutorial</li>
-              <li>Using AI features effectively</li>
-              <li>Accessing learning resources</li>
-              <li>Managing your account</li>
-            </ul>
-          </div>
-
-          <div className="help-card">
-            <div className="help-icon">
-              <FaEnvelope />
+            <div className="contact-item">
+              <i className="fas fa-map-marker-alt"></i>
+              <span>123 Education Street, Learning City</span>
             </div>
-            <h2>Contact Support</h2>
-            <p>Email: support@historia-ai.com</p>
-            <p>Response time: Within 24 hours</p>
-            <button className="contact-button">Send Message</button>
           </div>
-
-          <div className="help-card">
-            <div className="help-icon">
-              <FaPhone />
+        </div>
+        <div className="contact-form">
+          <h2>Send us a Message</h2>
+          <form>
+            <div className="form-group">
+              <input type="text" placeholder="Your Name" required />
             </div>
-            <h2>Technical Support</h2>
-            <p>Available Monday - Friday</p>
-            <p>9:00 AM - 5:00 PM EST</p>
-            <button className="contact-button">Call Support</button>
-          </div>
+            <div className="form-group">
+              <input type="email" placeholder="Your Email" required />
+            </div>
+            <div className="form-group">
+              <textarea placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit" className="submit-button">Send Message</button>
+          </form>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Contact;
