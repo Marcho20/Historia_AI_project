@@ -1,0 +1,78 @@
+.icon-lock-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.icon-lock-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  gap: 15px;
+}
+
+.icon-lock-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.lock-icon {
+  color: #4a90e2;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.locked .lock-icon {
+  color: #e74c3c;
+}
+
+.user-icon {
+  color: #7f8c8d;
+  font-size: 20px;
+}
+
+.menu-dots {
+  margin-left: auto;
+  display: flex;
+  gap: 3px;
+}
+
+.menu-dots span {
+  width: 4px;
+  height: 4px;
+  background-color: #95a5a6;
+  border-radius: 50%;
+}
+
+/* Animation for lock/unlock transition */
+.icon-lock-item.unlocked {
+  background-color: #f8f9fa;
+}
+
+.icon-lock-item.locked {
+  background-color: #fff;
+}
+
+.lock-icon svg {
+  transition: transform 0.3s ease;
+}
+
+.unlocked .lock-icon svg {
+  transform: scale(1.1);
+}
+
+/* Hover effects for interactive elements */
+.icon-lock-item:active {
+  transform: scale(0.98);
+}
+
+.menu-dots:hover span {
+  background-color: #2c3e50;
+} 

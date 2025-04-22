@@ -148,10 +148,16 @@ import {
   FaTachometerAlt,
   FaUpload,
   FaUserGraduate,
-  FaCalendarAlt
+  FaCalendarAlt,
+  FaPlus,
+  FaTimes,
+  FaPencilAlt,
+  FaSquare,
+  FaCheckSquare
 } from 'react-icons/fa';
 import Calendar from './Calendar';
 import { UserList } from './UserManagement/UserList';
+import { SubjectList } from './SubjectManagement/SubjectList';
 import './AdminDashboard.css';
 
 function AdminDashboard() {
@@ -160,6 +166,10 @@ function AdminDashboard() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [activeMenu, setActiveMenu] = useState('calendar');
   const [isLoading, setIsLoading] = useState(true);
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+  const [editingId, setEditingId] = useState(null);
+  const [editText, setEditText] = useState('');
 
   useEffect(() => {
     const checkAuth = () => {
@@ -193,6 +203,55 @@ function AdminDashboard() {
     { id: 'monitor-activity', label: 'Monitor Activity', icon: <FaUserGraduate /> },
     { id: 'analytics', label: 'Analytics', icon: <FaChartLine /> },
   ];
+
+  const addTodo = () => {
+    if (newTodo.trim()) {
+      setTodos([...todos, { 
+        id: Date.now(), 
+        text: newTodo, 
+        completed: false,
+        isEditing: false 
+      }]);
+      setNewTodo('');
+    }
+  };
+
+  const toggleTodo = (id) => {
+    setTodos(todos.map(todo => 
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  };
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  const editTodo = (id, newText) => {
+    setTodos(todos.map(todo =>
+      todo.id === id ? { ...todo, text: newText } : todo
+    ));
+    setEditingId(null);
+    setEditText('');
+  };
+
+  const startEditing = (id, text) => {
+    setEditingId(id);
+    setEditText(text);
+  };
+
+  const removeChecked = () => {
+    const hasCompletedTodos = todos.some(todo => todo.completed);
+    if (hasCompletedTodos) {
+      setTodos(todos.map(todo => ({
+        ...todo,
+        completed: false // Uncheck instead of removing
+      })));
+    }
+  };
+
+  const completedCount = todos.filter(todo => todo.completed).length;
+  const totalCount = todos.length;
+  const progressPercentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
 
   if (isLoading) {
     return <div className="loading-spinner">Loading...</div>;
@@ -235,20 +294,178 @@ function AdminDashboard() {
       <main className={`main-content ${isSidebarOpen ? 'shifted' : ''}`}>
         <div className="content-wrapper">
           {activeMenu === 'dashboard' && (
-            <div className="dashboard-stats">
-              <div className="stat-card">
-                <h3>Total Users</h3>
-                <div className="stat-value">14</div>
+            <>
+              <div className="page-header">
+                <h1>Dashboard Overview</h1>
+                <div className="user-welcome">Welcome back, {user?.username}</div>
               </div>
-              <div className="stat-card">
-                <h3>Total Subjects</h3>
-                <div className="stat-value">5</div>
+              <div className="dashboard-stats">
+                <div className="stat-card">
+                  <div className="stat-icon">
+                    <FaUsers />
+                  </div>
+                  <div className="stat-info">
+                    <h3>Total Users</h3>
+                    <div className="stat-value">14</div>
+                    <div className="stat-label">Active members</div>
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-icon">
+                    <FaBook />
+                  </div>
+                  <div className="stat-info">
+                    <h3>Total Subjects</h3>
+                    <div className="stat-value">5</div>
+                    <div className="stat-label">Available courses</div>
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-icon">
+                    <FaChartLine />
+                  </div>
+                  <div className="stat-info">
+                    <h3>Reports</h3>
+                    <div className="stat-value">19</div>
+                    <div className="stat-label">This month</div>
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-icon">
+                    <FaUserGraduate />
+                  </div>
+                  <div className="stat-info">
+                    <h3>Active Students</h3>
+                    <div className="stat-value">8</div>
+                    <div className="stat-label">Learning now</div>
+                  </div>
+                </div>
               </div>
-              <div className="stat-card">
-                <h3>Reports</h3>
-                <div className="stat-value">19</div>
+
+              <div className="dashboard-grid">
+                <div className="dashboard-card recent-activity">
+                  <h3>Recent Activity</h3>
+                  <div className="activity-list">
+                    <div className="activity-item">
+                      <div className="activity-icon"><FaUserGraduate /></div>
+                      <div className="activity-details">
+                        <div className="activity-title">New Student Enrolled</div>
+                        <div className="activity-time">2 hours ago</div>
+                      </div>
+                    </div>
+                    <div className="activity-item">
+                      <div className="activity-icon"><FaBook /></div>
+                      <div className="activity-details">
+                        <div className="activity-title">New Course Added</div>
+                        <div className="activity-time">5 hours ago</div>
+                      </div>
+                    </div>
+                    <div className="activity-item">
+                      <div className="activity-icon"><FaUsers /></div>
+                      <div className="activity-details">
+                        <div className="activity-title">Group Discussion Created</div>
+                        <div className="activity-time">1 day ago</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="dashboard-card modern-todo-section">
+                  <h2 className="todo-title">TODOLIST</h2>
+                  <div className="modern-todo-input-wrapper">
+                    <div className="modern-todo-input-group">
+                      <input
+                        type="text"
+                        value={newTodo}
+                        onChange={(e) => setNewTodo(e.target.value)}
+                        placeholder="what needs to be done?"
+                        className="modern-todo-input"
+                        onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+                      />
+                      <button 
+                        className="modern-todo-add-btn"
+                        onClick={addTodo}
+                        disabled={!newTodo.trim()}
+                        aria-label="Add task"
+                      >
+                        <FaPlus />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="modern-todo-list">
+                    {todos.map(todo => (
+                      <div 
+                        key={todo.id} 
+                        className={`modern-todo-item ${todo.completed ? 'completed' : ''}`}
+                      >
+                        <div className="modern-todo-content">
+                          <button 
+                            className="modern-todo-checkbox"
+                            onClick={() => toggleTodo(todo.id)}
+                            aria-label={todo.completed ? "Mark as incomplete" : "Mark as complete"}
+                          >
+                            {todo.completed ? <FaCheckSquare className="check-icon" /> : <FaSquare className="check-icon" />}
+                          </button>
+                          {editingId === todo.id ? (
+                            <input
+                              type="text"
+                              className="modern-todo-edit-input"
+                              value={editText}
+                              onChange={(e) => setEditText(e.target.value)}
+                              onBlur={() => editTodo(todo.id, editText)}
+                              onKeyPress={(e) => e.key === 'Enter' && editTodo(todo.id, editText)}
+                              autoFocus
+                            />
+                          ) : (
+                            <span className={`modern-todo-text ${todo.completed ? 'completed-text' : ''}`}>
+                              {todo.text}
+                            </span>
+                          )}
+                        </div>
+                        <div className="modern-todo-actions">
+                          <button 
+                            className="modern-todo-edit"
+                            onClick={() => startEditing(todo.id, todo.text)}
+                            aria-label="Edit task"
+                          >
+                            <FaPencilAlt />
+                          </button>
+                          <button 
+                            className="modern-todo-delete"
+                            onClick={() => deleteTodo(todo.id)}
+                            aria-label="Delete task"
+                          >
+                            <FaTimes />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {todos.length > 0 && (
+                    <div className="modern-todo-footer">
+                      <div className="modern-todo-progress">
+                        <div className="progress-bar">
+                          <div 
+                            className="progress-fill"
+                            style={{ width: `${progressPercentage}%` }}
+                          ></div>
+                        </div>
+                        <span className="progress-text">
+                          {completedCount} of {totalCount} tasks done
+                        </span>
+                      </div>
+                      <button 
+                        className="remove-checked-btn"
+                        onClick={removeChecked}
+                        disabled={completedCount === 0}
+                      >
+                        Uncheck all ({completedCount})
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
+            </>
           )}
 
           {activeMenu === 'calendar' && (
@@ -258,6 +475,12 @@ function AdminDashboard() {
           {activeMenu === 'manage-users' && (
             <div className="section-content">
               <UserList />
+            </div>
+          )}
+
+          {activeMenu === 'manage-subjects' && (
+            <div className="section-content">
+              <SubjectList />
             </div>
           )}
 

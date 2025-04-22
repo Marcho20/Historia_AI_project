@@ -437,7 +437,7 @@
 .event-modal-content {
   position: relative;
   background: white;
-  padding: 20px;
+  padding: 50px; /*modal in Addd event adjust the size  */
   border-radius: 8px;
   width: 90%;
   max-width: 400px;
