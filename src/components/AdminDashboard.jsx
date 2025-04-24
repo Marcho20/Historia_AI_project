@@ -37,37 +37,6 @@
 //     <div className="dashboard-container">
 //       {/* Sidebar */}
 //       <div className="dashboard-sidebar">
-//         <div className="sidebar-header">
-//           <img src="/logo.png" alt="Logo" className="sidebar-logo" />
-//           <h3>Historia: AI</h3>
-//         </div>
-        
-//         <nav className="sidebar-nav">
-//           <button 
-//             className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`}
-//             onClick={() => setActiveTab('overview')}
-//           >
-//             <FaHome /> Overview
-//           </button>
-          
-//           <button 
-//             className={`nav-item ${activeTab === 'users' ? 'active' : ''}`}
-//             onClick={() => setActiveTab('users')}
-//           >
-//             <FaUsers /> Users
-//           </button>
-          
-//           <button 
-//             className={`nav-item ${activeTab === 'courses' ? 'active' : ''}`}
-//             onClick={() => setActiveTab('courses')}
-//           >
-//             <FaBook /> Courses
-//           </button>
-          
-//           <button 
-//             className={`nav-item ${activeTab === 'analytics' ? 'active' : ''}`}
-//             onClick={() => setActiveTab('analytics')}
-//           >
 //             <FaChartBar /> Analytics
 //           </button>
           
@@ -158,6 +127,7 @@ import {
 import Calendar from './Calendar';
 import { UserList } from './UserManagement/UserList';
 import { SubjectList } from './SubjectManagement/SubjectList';
+import UploadLessons from './UploadLessons';
 import './AdminDashboard.css';
 
 function AdminDashboard() {
@@ -485,6 +455,11 @@ function AdminDashboard() {
           )}
 
           {/* Add other section contents */}
+          {activeMenu === 'upload-lessons' && (
+            <div className="section-content">
+              <UploadLessons />
+            </div>
+          )}
         </div>
       </main>
     </div>
