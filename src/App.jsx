@@ -5,6 +5,7 @@ import About from "./components/About.jsx";
 import Contact from "./components/Contact.jsx";
 import Modal from "./components/Modal.jsx";
 import AdminDashboard from './components/AdminDashboard';
+import TeacherDashboard from './components/TeachearDashboard.jsx';
 // import UserList from './components/UserManagement/UserList';
 // import Home from './components/Home';
 
@@ -30,6 +31,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
+
         </Routes>
 
         {isModalOpen && <Modal onClose={handleCloseModal} />}

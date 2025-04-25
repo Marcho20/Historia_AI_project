@@ -1,0 +1,165 @@
+.upload-module {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .subject-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .subject-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+  }
+  
+  .subject-details {
+    text-align: left;
+  }
+  
+  .subject-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    margin-bottom: 5px;
+  }
+  
+  .subject-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+  }
+  
+  .upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .upload-area:hover {
+    border-color: #a3a3a3;
+  }
+  
+  .upload-icon {
+    font-size: 3rem;
+    color: #ccc;
+    margin-bottom: 10px;
+  }
+  
+  .upload-text {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .upload-subtext {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 5px;
+  }
+  
+  .file-list {
+    text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .file-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .file-icon {
+    margin-right: 10px;
+    color: #666;
+    font-size: 1.2rem;
+  }
+  
+  .file-details {
+    flex-grow: 1;
+  }
+  
+  .file-name {
+    font-size: 0.9rem;
+    margin: 0;
+    margin-bottom: 3px;
+  }
+  
+  .file-size {
+    font-size: 0.8rem;
+    color: #888;
+    margin: 0;
+  }
+  
+  .file-actions {
+    display: flex;
+  }
+  
+  .file-action-btn {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s ease;
+  }
+  
+  .file-action-btn:hover {
+    color: #333;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-cancel {
+    background-color: #f1f1f1;
+    color: #333;
+    margin-right: 10px;
+  }
+  
+  .btn-cancel:hover {
+    background-color: #e3e3e3;
+  }
+  
+  .btn-success {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .btn-success:hover {
+    background-color: #45a049;
+  } 

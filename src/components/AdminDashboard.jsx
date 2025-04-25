@@ -130,10 +130,80 @@ import { SubjectList } from './SubjectManagement/SubjectList';
 import UploadLessons from './UploadLessons';
 import './AdminDashboard.css';
 
+// Analytics chart components
+import ActiveUsersChart from './analytics/ActiveUsersChart';
+import MostViewedLessonsChart from './analytics/MostViewedLessonsChart';
+import StudentQuizTrendsChart from './analytics/StudentQuizTrendsChart';
+
+// --- Real-time mock data hooks ---
+function useMockActiveUsersData() {
+  const [data, setData] = React.useState([
+    { day: 'Mon', users: 3 },
+    { day: 'Tue', users: 5 },
+    { day: 'Wed', users: 5 },
+    { day: 'Thu', users: 4 },
+    { day: 'Fri', users: 9 },
+    { day: 'Sat', users: 10 },
+    { day: 'Sun', users: 6 },
+  ]);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setData(prev => prev.map((d, i) => ({ ...d, users: Math.max(80, Math.round(d.users + (Math.random() - 0.5) * 30)) })));
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+  return data;
+}
+
+function useMockMostViewedLessonsData() {
+  const [data, setData] = React.useState([
+    { subject: 'Computer Science', views: 4},
+    { subject: 'History', views: 5 },
+    { subject: 'Science', views: 4 },
+    { subject: 'English', views: 6 },
+    { subject: 'Mathematics', views: 4 },
+  ]);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setData(prev => prev.map(d => ({ ...d, views: Math.max(100, Math.round(d.views + (Math.random() - 0.5) * 30)) })));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+  return data;
+}
+
+function useMockStudentQuizTrendsData() {
+  const [data, setData] = React.useState([
+    { week: 'Week 1', Math: 9, Science: 5, English: 4 },
+    { week: 'Week 2', Math: 8, Science: 2, English: 5 },
+    { week: 'Week 3', Math: 8, Science: 3, English: 7 },
+    { week: 'Week 4', Math: 9, Science: 89, English: 4 },
+  ]);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setData(prev => prev.map(row => {
+        const newRow = { ...row };
+        Object.keys(newRow).forEach(key => {
+          if (key !== 'week') newRow[key] = Math.max(60, Math.round(newRow[key] + (Math.random() - 0.5) * 5));
+        });
+        return newRow;
+      }));
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
+  return data;
+}
+
+
 function AdminDashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+
+  // --- Analytics data hooks ---
+  const activeUsersData = useMockActiveUsersData();
+  const mostViewedLessonsData = useMockMostViewedLessonsData();
+  const studentQuizTrendsData = useMockStudentQuizTrendsData();
   const [activeMenu, setActiveMenu] = useState('calendar');
   const [isLoading, setIsLoading] = useState(true);
   const [todos, setTodos] = useState([]);
@@ -458,6 +528,26 @@ function AdminDashboard() {
           {activeMenu === 'upload-lessons' && (
             <div className="section-content">
               <UploadLessons />
+            </div>
+          )}
+
+          {activeMenu === 'analytics' && (
+            <div className="analytics-modal-bg">
+              <div className="analytics-modal-card">
+                <h2 className="analytics-title">Analysis</h2>
+                <div className="analytics-chart-section">
+                  <h3 className="analytics-chart-title">Active users per day</h3>
+                  <ActiveUsersChart data={activeUsersData} height={340} />
+                </div>
+                <div className="analytics-chart-section">
+                  <h3 className="analytics-chart-title">Most viewed lessons</h3>
+                  <MostViewedLessonsChart data={mostViewedLessonsData} height={340} />
+                </div>
+                <div className="analytics-chart-section">
+                  <h3 className="analytics-chart-title">Student quiz performance trends</h3>
+                  <StudentQuizTrendsChart data={studentQuizTrendsData} height={340} />
+                </div>
+              </div>
             </div>
           )}
         </div>

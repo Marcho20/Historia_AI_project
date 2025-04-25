@@ -24,6 +24,7 @@
   min-width: 300px;
   max-width: 500px;
   padding: 1rem 1.5rem;
+  padding-left: 3rem;
   border-radius: 8px;
   border: 1.5px solid #c8c8e4;
   font-size: 1.1rem;
@@ -39,22 +40,41 @@
   font-size: 1rem;
   font-weight: bold;
 }
+.upload-lessons-view-toggle {
+  display: flex;
+  overflow: hidden;
+  border-radius: 4px;
+  gap: 6px;
+}
 .upload-lessons-view-toggle button {
-  padding: 0.7rem 1.3rem;
+  padding: 0.8rem 1.5rem;
   border: none;
-  background: #eee;
-  font-weight: bold;
-  border-radius: 5px 0 0 5px;
+  background: #fff;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
-  margin-right: -1px;
+  min-width: 90px;
+  transition: all 0.2s;
+  border: 1px solid #e0e0e0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 4px;
+  color: #666;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.upload-lessons-view-toggle button:first-child {
+  border-radius: 4px;
 }
 .upload-lessons-view-toggle button:last-child {
-  border-radius: 0 5px 5px 0;
-  margin-right: 0;
+  border-radius: 4px;
 }
 .upload-lessons-view-toggle .active {
-  background: #2f2f86;
+  background: #4650B2;
   color: #fff;
+  border-color: #4650B2;
 }
 .upload-lessons-post-btn {
   background: #2f2f86;
@@ -361,4 +381,23 @@
 }
 .modal-post-btn-post:hover {
   background: #4a3fa3;
+}
+
+.search-container {
+  position: relative;
+  flex: 2 1 340px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #707070;
+  font-size: 1.2rem;
+}
+
+.button-icon {
+  font-size: 1.2rem;
+  line-height: 1;
 }
