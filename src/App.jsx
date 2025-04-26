@@ -5,8 +5,7 @@ import About from "./components/About.jsx";
 import Contact from "./components/Contact.jsx";
 import Modal from "./components/Modal.jsx";
 import AdminDashboard from './components/AdminDashboard';
-import TeacherDashboard from './components/TeachearDashboard.jsx';
-// import UserList from './components/UserManagement/UserList';
+import TeacherDashboard from "./components/TeacherSection/TeachearDashboard";// import UserList from './components/UserManagement/UserList';
 // import Home from './components/Home';
 
 import './App.css';
