@@ -1,0 +1,356 @@
+/* MyLessons styles - Reference Screenshot Design */
+
+input[type='checkbox'].mylessons-checkbox {
+  width: 25px;
+  height: 25px;
+  accent-color: #4346b3;
+  border: 2.5px solid #d1d5db;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 2px 8px #e0e7ff33;
+  transition: border 0.18s, box-shadow 0.18s, accent-color 0.18s;
+  cursor: pointer;
+  appearance: none;
+  outline: none;
+  position: relative;
+  vertical-align: middle;
+}
+input[type='checkbox'].mylessons-checkbox:checked {
+  background: #4346b3;
+  border-color: #4346b3;
+  box-shadow: 0 4px 16px #4346b355;
+}
+input[type='checkbox'].mylessons-checkbox:checked::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  width: 7px;
+  height: 13px;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+input[type='checkbox'].mylessons-checkbox:focus {
+  border-color: #2316df;
+  box-shadow: 0 0 0 3px #c7d2fe99;
+}
+input[type='checkbox'].mylessons-checkbox:hover {
+  border-color: #b4b8ff;
+  box-shadow: 0 2px 12px #a5b4fc33;
+}
+
+
+.mylessons-dropdown {
+  padding: 10px 28px;
+  font-weight: 600;
+  background: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 4px 18px #0001;
+  font-size: 16px;
+}
+.mylessons-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.mylessons-toggle-group {
+  display: flex;
+  gap: 0;
+}
+.mytoggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-size: 1.12rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 8px;
+  border: 1.5px solid #d1d5db;
+  background: #fff;
+  color: #4346b3;
+  cursor: pointer;
+  transition: background 0.28s cubic-bezier(.4,0,.2,1), color 0.28s cubic-bezier(.4,0,.2,1), border 0.28s cubic-bezier(.4,0,.2,1);
+  outline: none;
+  margin-right: 8px;
+}
+.mytoggle-btn:last-child {
+  margin-right: 0;
+}
+.mytoggle-btn.active {
+  background: #4346b3;
+  color: #fff;
+  border: 1.5px solid #4346b3;
+}
+.mytoggle-btn img {
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+.mylessons-controls button {
+  margin-right: 10px;
+  background: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 7px 16px;
+  cursor: pointer;
+}
+.mylessons-controls button:last-child {
+  background: #eee;
+  color: #222;
+}
+.mylessons-search {
+  margin-bottom: 18px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid #e0e7ff;
+  font-size: 15px;
+  width: 100%;
+  max-width: 340px;
+}
+
+.mylessons-grid {
+  /* display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+  margin-top: 12px; */
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+  margin-top: 12px;
+  align-items: stretch;
+}
+
+.mylessons-card-ref {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(60,60,120,0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 230px;
+  transition: box-shadow .18s;
+  position: relative;
+}
+.mylessons-card-ref:hover {
+  box-shadow: 0 8px 28px rgba(60,60,120,0.16);
+}
+.mylessons-card-img-placeholder {
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  width: 100%;
+  border-bottom: 1px solid #e0e7ff;
+}
+.mylessons-card-info {
+  padding: 18px 16px 12px 16px;
+  flex: 1 1 auto;       /* aano aallow nya yung info to grow n  fill space */
+  display: flex;
+  flex-direction: column;
+  min-height: 160px;
+  position: relative;
+}
+
+
+.mylesons-section-toggle, .mylessons-section-toggle {
+   align-self: flex-start;
+  margin-left: auto;
+  margin-top: 220;
+  margin-bottom: 0;  
+  /* border-radius: 10%; */
+  /* background: none; */
+
+/* 
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center; */
+
+
+  /* background: none;
+  /* right: 1px;
+  left: 991px;
+  bottom: 12px;
+  margin: 0;
+  align-self: auto;
+  position: relative; */
+}
+.mylessons-card-blue {
+  background: #04ae34;
+  color: #fff;
+}
+.mylessons-card-dark {
+  background: #374151;
+  color: #fff;
+}
+.mylessons-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.mylessons-card-desc {
+  font-size: 0.97rem;
+  margin-bottom: 18px;
+  color: #e0e7ff;
+}
+.mylessons-card-sections {
+  font-size: 0.95rem;
+  color: #dbeafe;
+  text-align: right;
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+}
+.mylessons-section-bar {
+  background: #f1f5f9;
+  border-top: 1px solid #e0e7ff;
+  padding: 8px 18px 8px 18px;
+  font-size: 0.98rem;
+  color: #222;
+  width: 100%;
+  box-sizing: border-box;
+}
+.mylessons-section-bar-title {
+  font-weight: 600;
+  color: #2316df; /* color  >*/
+  margin-bottom: 4px;
+}
+.mylessons-section-bar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.mylessons-section-bar-item {
+  font-size: 0.98rem;
+  color: #222;
+  background: #e0e7ff;
+  border-radius: 6px;
+  padding: 3px 10px 3px 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mylesons-section-toggle, .mylessons-section-toggle {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  margin-top: 8px;
+  margin-bottom: 0;
+  padding: 0 0 0 8px;
+  transition: color 0.2s;
+  outline: none;
+  
+  box-shadow: none;
+}
+/*change the problme */
+button.mylesons-section-toggle,
+button.mylessons-section-toggle {
+  background: none !important;
+}
+
+
+.mylesons-section-toggle:focus, .mylessons-section-toggle:focus {
+  outline: none;
+  /* box-shadow: 0 0 0 2px #2563eb33; */
+  background: none;
+}
+.mylesons-section-toggle:active, .mylessons-section-toggle:active,
+.mylesons-section-toggle:focus-visible, .mylessons-section-toggle:focus-visible,
+.mylessons-section-toggle:active, .mylessons-section-toggle:focus-visible {
+  outline: none;
+  /* box-shadow: 0 0 0 2px #2563eb33; */
+  background: none;
+  
+}
+
+.mylesons-section-toggle:hover, .mylessons-section-toggle:hover {
+  color: #dad30b; /* change the color section >*/
+}
+.mylesons-chevron, .mylessons-chevron {
+  display: inline-block;
+  transition: transform 0.2s;
+  font-size: 1.1em;
+}
+.mylesons-chevron.expanded, .mylessons-chevron.expanded {
+  transform: rotate(180deg);
+}
+
+
+.mylessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 12px;
+}
+.mylessons-card-listview {
+  flex-direction: column;
+  min-width: 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(60,60,120,0.08);
+  background: #fff;
+  overflow: hidden;
+  display: flex;
+  padding: 0;
+}
+.mylessons-list-row {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+.mylessons-list-img {
+  min-width: 170px;
+  max-width: 130px;
+  height: 100%;
+  /* background: #0e4ac3; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #e0e7ff;
+}
+.mylessons-list-img img,
+.mylessons-list-img svg {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  display: block;
+}
+
+
+@media (max-width: 700px) {
+  .mylessons-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .mylessons-card-ref {
+    min-width: 0;
+  }
+  .mylessons-list-img {
+    min-width: 70px;
+    max-width: 70px;
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { StudentActivityTracker } from '../StudentAreaSection';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -10,8 +11,11 @@ import {
   FaSignOutAlt
 } from 'react-icons/fa';
 import './TeachearDashboard.css';
+import Calendar from '../Calendar';
+import MyLessons from './MyLessons';
 
 function TeacherDashboard() {
+
   // --- To-do List State & Handlers ---
   const [todos, setTodos] = useState([
     { id: 1, text: "Prepare lesson plans for next week", done: false },
@@ -50,12 +54,41 @@ function TeacherDashboard() {
 
   // Chart modal state and handlers for Students donut chart
   const [popoverGroup, setPopoverGroup] = useState(null); // 'Boys' or 'Girls' or null
-  const boysCount = 14;
-  const girlsCount = 18;
+  const [popoverPosition, setPopoverPosition] = useState({ x: 0, y: 0 });
+  const boysCount = 6;
+  const girlsCount = 3;
 
-  const handleArcClick = (group) => {
+  function handleArcFocus(group, event) {
+    const rect = event.target.getBoundingClientRect();
     setPopoverGroup(group);
-  };
+    setPopoverPosition({
+      x: rect.right + window.scrollX + 6, // 16px gap to the right
+      y: rect.top + rect.height / 10 + window.scrollY // vertical center
+    });
+    
+  }
+  function handleArcBlur() {
+    setPopoverGroup(null);
+  }
+
+  // Auto-close popover if mouse leaves chart area or popover
+  const chartRef = React.useRef();
+  useEffect(() => {
+    if (!popoverGroup) return;
+    function handleMouseMove(e) {
+      if (!chartRef.current) return;
+      const chart = chartRef.current;
+      const popover = document.querySelector('.popover-group');
+      if (
+        !chart.contains(e.target) &&
+        (!popover || !popover.contains(e.target))
+      ) {
+        setPopoverGroup(null);
+      }
+    }
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => document.removeEventListener('mousemove', handleMouseMove);
+  }, [popoverGroup]);
 
   // Close popover when clicking outside
   useEffect(() => {
@@ -224,8 +257,7 @@ function TeacherDashboard() {
           )}
           {activeMenu === 'student-area' && (
             <div className="section-content">
-              {/* Student Area content */}
-              <h2>Student Area</h2>
+              <StudentActivityTracker />
               <div style={{color:'#bbb', marginTop:'18px'}}>This is the Student Area. Add your student-related features here.</div>
             </div>
           )}
@@ -373,7 +405,11 @@ function TeacherDashboard() {
                     <span className="card-title">Students</span>
                   </div>
                   <div className="card-body">
-                    <div className="pie-chart-placeholder" style={{ position: 'relative' }}>
+                    <div
+  className="pie-chart-placeholder"
+  style={{ position: 'relative' }}
+  ref={chartRef}
+>
   <svg width="180" height="180" viewBox="0 0 180 180">
     {/* Boys arc */}
     <circle
@@ -386,7 +422,8 @@ function TeacherDashboard() {
       strokeDasharray="320 320"
       strokeDashoffset="0"
       style={{ cursor: "pointer", filter: "drop-shadow(0 4px 12px #4e73df55)" }}
-      onClick={() => handleArcClick('Boys')}
+      onMouseEnter={e => handleArcFocus('Boys', e)}
+      onMouseLeave={handleArcBlur}
     />
     {/* Girls arc */}
     <circle
@@ -399,7 +436,8 @@ function TeacherDashboard() {
       strokeDasharray="320 320"
       strokeDashoffset="-219"
       style={{ cursor: "pointer", filter: "drop-shadow(0 4px 12px #ff638455)" }}
-      onClick={() => handleArcClick('Girls')}
+      onMouseEnter={e => handleArcFocus('Girls', e)}
+      onMouseLeave={handleArcBlur}
     />
   </svg>
   <div className="chart-legend-row">
@@ -409,8 +447,26 @@ function TeacherDashboard() {
     <span className="legend-label girls">Girls</span>
   </div>
   {popoverGroup && (
-    <div className={`popover-group ${popoverGroup === 'Girls' ? 'girls' : 'boys'}`}>
-      <button className="popover-close" onClick={() => setPopoverGroup(null)} aria-label="Close popover">×</button>
+    <div
+      className={`popover-group ${popoverGroup === 'Girls' ? 'girls' : 'boys'}`}
+      style={{
+        position: 'absolute',
+        left: popoverPosition.x - chartRef.current?.getBoundingClientRect().left - 20 || 0,
+        top: popoverPosition.y - chartRef.current?.getBoundingClientRect().top - 30 || 0,
+        background: '#fff',
+        borderRadius: 12,
+        boxShadow: '0 6px 24px 0 #2222',
+        padding: '12px 18px',
+        display: 'flex',
+        alignItems: 'center',
+        zIndex: 10,
+        minWidth: 90,
+        transition: 'opacity 0.2s',
+        pointerEvents: 'auto',
+      }}
+      onMouseLeave={handleArcBlur}
+      onMouseEnter={() => {}}
+    >
       <span className={`legend-dot ${popoverGroup === 'Girls' ? 'girls' : 'boys'}`} style={{ marginRight: 8 }}></span>
       <span style={{ fontWeight: 500, color: '#444', fontSize: '1.1rem', marginRight: 10 }}>{popoverGroup}</span>
       <span style={{ fontWeight: 700, fontSize: '1.1rem', color: '#222' }}>{popoverGroup === 'Girls' ? girlsCount : boysCount}</span>
@@ -506,6 +562,7 @@ function TeacherDashboard() {
                   </div>
                 </div>
 
+
                 {/* My Lessons Card */}
                 <div className="dashboard-card my-lessons">
                   <div className="card-header">
@@ -527,14 +584,12 @@ function TeacherDashboard() {
           )}
           {activeMenu === 'my-lesson' && (
             <div className="section-content">
-              {/* My Lesson content */}
-              <h2>My Lesson</h2>
+              <MyLessons />
             </div>
           )}
           {activeMenu === 'calendar' && (
             <div className="section-content">
-              {/* Calendar content */}
-              <h2>Calendar</h2>
+              <Calendar />
             </div>
           )}
         </div>
