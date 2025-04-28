@@ -7,6 +7,7 @@ import Modal from "./components/Modal.jsx";
 import AdminDashboard from './components/AdminDashboard';
 import TeacherDashboard from "./components/TeacherSection/TeachearDashboard";// import UserList from './components/UserManagement/UserList';
 // import Home from './components/Home';
+import StudentDashboard from './components/StudentAreaSection/StudentDashboard';
 
 import './App.css';
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
+          <Route path="/student-dashboard" element={<StudentDashboard />} />
 
         </Routes>
 
