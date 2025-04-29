@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 
 const initialAssignments = [
   {
-    title: 'Algebra Worksheet 1',
-    subject: 'Mathematics',
+    title: 'AP Activity 1',
+    subject: 'Araling Panlipunan',
     dueDate: '2025-05-01',
     status: 'Not Started',
     description: 'Complete the worksheet and upload your answers as a PDF or image.',
     files: [
-      { name: 'Worksheet PDF', url: '/files/algebra_worksheet1.pdf', type: 'pdf' },
+      { name: 'Worksheet PDF', url: '/files/AP_worksheet1.pdf', type: 'pdf' },
     ],
     submission: null,
     grade: null,
   },
   {
-    title: 'Essay: Ancient Civilizations',
-    subject: 'History',
+    title: 'Essay: AP 2',
+    subject: 'Araling Panlipunan',
     dueDate: '2025-05-03',
     status: 'Submitted',
     description: 'Write a 500-word essay about any ancient civilization.',
@@ -32,8 +32,8 @@ const initialAssignments = [
     },
   },
   {
-    title: 'Chemistry Lab Report',
-    subject: 'Science',
+    title: 'AP quiz01',
+    subject: 'Araling Panlipunan',
     dueDate: '2025-05-05',
     status: 'In Progress',
     description: 'Submit your lab report with data and analysis.',

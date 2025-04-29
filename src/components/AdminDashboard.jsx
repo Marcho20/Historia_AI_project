@@ -125,6 +125,7 @@ import {
   FaCheckSquare
 } from 'react-icons/fa';
 import Calendar from './Calendar';
+import MonitorActivity from './MonitorActivity/MonitorActivity';
 import { UserList } from './UserManagement/UserList';
 import { SubjectList } from './SubjectManagement/SubjectList';
 import UploadLessons from './UploadLessons';
@@ -241,7 +242,7 @@ function AdminDashboard() {
     { id: 'manage-subjects', label: 'Manage Subjects', icon: <FaBook /> },
     { id: 'upload-lessons', label: 'Upload Lessons', icon: <FaUpload /> },
     { id: 'monitor-activity', label: 'Monitor Activity', icon: <FaUserGraduate /> },
-    { id: 'analytics', label: 'Analytics', icon: <FaChartLine /> },
+    { id: 'analytics', label: 'Analysis', icon: <FaChartLine /> },
   ];
 
   const addTodo = () => {
@@ -528,6 +529,12 @@ function AdminDashboard() {
           {activeMenu === 'upload-lessons' && (
             <div className="section-content">
               <UploadLessons />
+            </div>
+          )}
+
+          {activeMenu === 'monitor-activity' && (
+            <div className="section-content">
+              <MonitorActivity />
             </div>
           )}
 

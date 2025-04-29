@@ -1,0 +1,201 @@
+/***** Root Layout *****/
+.monitor-activity-root {
+  background: #f7f8fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  padding: 0;
+  margin: 0;
+}
+.monitor-header {
+  padding: 1.2rem 2rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #444;
+  border-bottom: 1px solid #ececec;
+  background: #fff;
+  border-radius: 12px 12px 0 0;
+}
+.monitor-content {
+  display: flex;
+  gap: 2.5rem;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+}
+.monitor-left {
+  flex: 1.1;
+  min-width: 320px;
+}
+.monitor-right {
+  flex: 2;
+  min-width: 340px;
+}
+
+/***** Left Side *****/
+.monitor-left-title {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #7c7c7c;
+  margin-bottom: 1.6rem;
+}
+.activity-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+.activity-card {
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 1.7rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.17s cubic-bezier(.4,2,.3,1), box-shadow 0.22s, background 0.22s;
+  position: relative;
+  outline: none;
+  border: none;
+  opacity: 0.97;
+}
+.activity-card:hover,
+.activity-card.selected {
+  transform: translateY(-3px) scale(1.025);
+  opacity: 1;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.13);
+  z-index: 2;
+}
+.activity-card.selected {
+  border: 2.5px solid #fff;
+  outline: 2.5px solid #3333ff33;
+  opacity: 1;
+}
+.activity-card-icon {
+  margin-right: 1.3rem;
+  font-size: 2.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.activity-card-label {
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin-right: auto;
+}
+.activity-card-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+/***** Right Side *****/
+.monitor-right-title {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #7c7c7c;
+  margin-bottom: 1.6rem;
+}
+.monitor-right-panel {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 2rem 2rem 1.5rem 2rem;
+  min-height: 320px;
+  transition: box-shadow 0.24s;
+}
+/***** Right Panel Content (Animated) *****/
+.fade-in {
+  animation: fadeIn 0.6s cubic-bezier(.4,2,.3,1);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+/***** User List *****/
+.user-list {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.user-row {
+  display: flex;
+  align-items: center;
+  background: #f7f8fa;
+  border-radius: 8px;
+  padding: 0.7rem 1.1rem;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.03);
+  transition: background 0.18s;
+  position: relative;
+}
+.user-row:hover {
+  background: #f0f6ff;
+}
+.user-info {
+  margin-left: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.user-info b {
+  font-size: 1.07rem;
+  font-weight: 700;
+  color: #333;
+}
+.user-info span {
+  font-size: 0.98rem;
+  color: #888;
+  font-weight: 500;
+}
+.user-time {
+  font-size: 0.96rem;
+  color: #aaa;
+  margin-left: 1.2rem;
+  min-width: 70px;
+  text-align: right;
+}
+/***** Status Dots *****/
+.dot {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  margin-right: 0.7rem;
+  vertical-align: middle;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.dot.online {
+  background: #22c55e;
+  box-shadow: 0 0 0 2px #22c55e44;
+}
+.dot.idle {
+  background: #fbbf24;
+  box-shadow: 0 0 0 2px #fbbf2444;
+}
+/***** Section Titles *****/
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.01em;
+}
+.online-header {
+  display: flex;
+  align-items: center;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #333;
+}
+/***** Responsive *****/
+@media (max-width: 900px) {
+  .monitor-content {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.5rem 0.7rem 1.5rem 0.7rem;
+  }
+  .monitor-left, .monitor-right {
+    min-width: 0;
+  }
+  .monitor-right-panel {
+    padding: 1.2rem 0.8rem 1rem 0.8rem;
+  }
+}

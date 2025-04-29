@@ -30,9 +30,9 @@ const badgesData = [
     date: null,
   },
   {
-    name: 'ICT Innovator',
-    icon: '💻',
-    description: 'Creative solutions in ICT projects.',
+    name: 'MAPEH ',
+    icon: '🖼️',
+    description: 'dsadads.',
     achieved: true,
     date: '2025-04-15',
   },

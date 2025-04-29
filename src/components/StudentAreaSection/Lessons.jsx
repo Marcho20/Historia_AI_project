@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const initialLessons = [
   {
-    title: 'Introduction to Algebra',
+    title: 'Mastering Basic Addition and Subtraction',
     subject: 'Mathematics',
     teacher: 'Mr. Santos',
     status: 'Completed',
@@ -24,7 +24,7 @@ const initialLessons = [
     ],
   },
   {
-    title: 'Basic Chemistry',
+    title: 'Basic Filipino',
     subject: 'Science',
     teacher: 'Mr. Cruz',
     status: 'Not Started',
@@ -36,7 +36,7 @@ const initialLessons = [
   {
     title: 'English Literature',
     subject: 'English',
-    teacher: 'Ms. Garcia',
+    teacher: 'Ms. ',
     status: 'Completed',
     description: 'Dive into classic and modern works of English literature.',
     files: [
@@ -44,9 +44,9 @@ const initialLessons = [
     ],
   },
   {
-    title: 'Computer Fundamentals',
-    subject: 'ICT',
-    teacher: 'Mr. Lee',
+    title: 'Edukasyon sa Pagpapakatao (EsP)',
+    subject: 'ESP',
+    teacher: 'Mr. ',
     status: 'In Progress',
     description: 'Introduction to computers, hardware, and software basics.',
     files: [

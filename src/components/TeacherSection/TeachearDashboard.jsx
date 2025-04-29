@@ -13,6 +13,7 @@ import {
 import './TeachearDashboard.css';
 import Calendar from '../Calendar';
 import MyLessons from './MyLessons';
+import ManageActivity from '../ManageActivity/ManageActivity';
 
 function TeacherDashboard() {
 
@@ -578,8 +579,7 @@ function TeacherDashboard() {
           )}
           {activeMenu === 'manage-activity' && (
             <div className="section-content">
-              {/* Manage Activity content */}
-              <h2>Manage Activity</h2>
+              <ManageActivity />
             </div>
           )}
           {activeMenu === 'my-lesson' && (
