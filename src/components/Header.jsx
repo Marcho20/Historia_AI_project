@@ -101,7 +101,7 @@
 
 import React from "react";
 import "./Header.css";
-import logo1 from "../assets/logo1.jpg";
+import logoCircle from "../assets/HISTORIA-AI-logo-bg.png";
 import { NavLink, useLocation } from "react-router-dom";
 
 function Header({ onLoginClick }) {
@@ -112,8 +112,8 @@ function Header({ onLoginClick }) {
       <>
         <header>
             <div className="logo">
-                {!isInDashboard && <img src={logo1} alt="Logo" className="header-logo" />}
-                <h2>HISTORIA: AI</h2>
+                {!isInDashboard && <img src={logoCircle} alt="Historia AI Logo" className="header-logo-circle" />}
+                <h2>Historia-AI</h2>
             </div>  
             {!isInDashboard && (
                 <nav> 

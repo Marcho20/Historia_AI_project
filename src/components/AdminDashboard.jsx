@@ -215,10 +215,23 @@ function AdminDashboard() {
   useEffect(() => {
     const checkAuth = () => {
       const userData = JSON.parse(localStorage.getItem('user'));
-      if (!userData || userData.role !== 'admin') {
+      console.log('Admin Dashboard - User data:', userData);
+      
+      if (!userData) {
         navigate('/');
         return;
       }
+      
+      // Check for admin roles with case-insensitive comparison
+      const role = userData.role?.toLowerCase() || '';
+      const isAdmin = role.includes('admin') || role === 'enterprise admin';
+      
+      if (!isAdmin) {
+        console.log('Not an admin role:', role);
+        navigate('/');
+        return;
+      }
+      
       setUser(userData);
       setIsLoading(false);
     };
@@ -357,7 +370,7 @@ function AdminDashboard() {
                   </div>
                   <div className="stat-info">
                     <h3>Total Subjects</h3>
-                    <div className="stat-value">5</div>
+                    <div className="stat-value">1</div>
                     <div className="stat-label">Available courses</div>
                   </div>
                 </div>
@@ -553,6 +566,10 @@ function AdminDashboard() {
                 <div className="analytics-chart-section">
                   <h3 className="analytics-chart-title">Student quiz performance trends</h3>
                   <StudentQuizTrendsChart data={studentQuizTrendsData} height={340} />
+                </div>
+                
+                <div style={{color:'#5a6474', marginTop:'30px', textAlign:'center', padding:'15px', borderRadius:'5px', background:'#f8f9fa'}}>
+                  "The system is currently under development and not yet finalized. Some features may still be incomplete, and further testing and refinement are ongoing to ensure the best possible performance and user experience".
                 </div>
               </div>
             </div>

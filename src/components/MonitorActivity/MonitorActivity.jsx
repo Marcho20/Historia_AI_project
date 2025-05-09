@@ -183,11 +183,15 @@ const MonitorActivity = () => {
           </div>
         </div>
         <div className="monitor-right">
-          <div className="monitor-right-title">Online Users</div>
+          {/* <div className="monitor-right-title">Online Users</div> */}
           <div className="monitor-right-panel">
             {renderRightPanel()}
           </div>
         </div>
+      </div>
+      
+      <div style={{color:'#5a6474', marginTop:'30px', textAlign:'center', padding:'15px', borderRadius:'5px', background:'#f8f9fa'}}>
+        "The system is currently under development and not yet finalized. Some features may still be incomplete, and further testing and refinement are ongoing to ensure the best possible performance and user experience".
       </div>
     </div>
   );

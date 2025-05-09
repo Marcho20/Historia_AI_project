@@ -74,14 +74,45 @@
 }
 
 .status-badge {
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  display: inline-block;
+  min-width: 120px;
+  text-align: center;
 }
 
 .status-badge.active {
-  background-color: #e8f5e9;
-  color: #2e7d32;
+  background-color: #e6f4ea;
+  color: #219150;
+  border: 1px solid #b7e0c7;
+}
+
+.status-badge.pending {
+  background-color: #fff4e5;
+  color: #b26a00;
+  border: 1px solid #ffe0b2;
+  position: relative;
+}
+
+/* Add a small spinner for pending verification */
+.status-badge.pending::after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: 8px;
+  border-radius: 50%;
+  border: 2px solid #b26a00;
+  border-top: 2px solid transparent;
+  animation: spin 1s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .actions {
@@ -118,11 +149,91 @@
 
 .user-management-modal .modal-content {
   background: white;
-  border-radius: 8px;
-  padding: 20px;
-  width: 90%;
-  max-width: 500px;
-  position: relative;
+  border-radius: 10px;
+  max-width: 550px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Modern Confirmation Modal */
+.confirmation-modal .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+
+.confirmation-modal .modal-content {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 32px 32px 24px 32px;
+  min-width: 340px;
+  max-width: 90vw;
+  text-align: center;
+  animation: popIn 0.18s cubic-bezier(.47,1.64,.41,.8);
+}
+
+.confirmation-modal h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.confirmation-modal p {
+  margin: 18px 0 28px 0;
+  color: #444;
+  font-size: 1rem;
+}
+
+.confirmation-modal .modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.confirm-btn, .cancel-btn {
+  padding: 10px 28px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.confirm-btn {
+  background: #e53935;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(229,57,53,0.08);
+}
+.confirm-btn:hover {
+  background: #b71c1c;
+}
+
+.cancel-btn {
+  background: #f4f4f4;
+  color: #222;
+  border: 1px solid #ddd;
+}
+.cancel-btn:hover {
+  background: #e0e0e0;
+  color: #111;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.92); opacity: 0.3; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 /* Responsive Design */
@@ -167,5 +278,13 @@
   .actions {
     flex-direction: column;
     gap: 5px;
+  }
+}
+
+/* Make modal forms more compact on smaller screens */
+@media (max-width: 600px) {
+  .user-management-modal .modal-content {
+    max-width: 480px;
+    width: 95%;
   }
 } 

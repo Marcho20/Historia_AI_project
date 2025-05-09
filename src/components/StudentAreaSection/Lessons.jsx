@@ -216,11 +216,15 @@ export default function Lessons() {
                   ))}
                 </ul>
               </div>
+              
             )}
 
           </div>
+
         </div>
       )}
+      
     </div>
+    
   );
 }

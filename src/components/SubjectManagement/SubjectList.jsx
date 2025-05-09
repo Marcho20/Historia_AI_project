@@ -1,24 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { FaPlus, FaSearch, FaPen, FaTrash, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './SubjectList.css';
+import { addSubject, getAllSubjects, updateSubject, deleteSubject, subscribeToSubjects, cleanupDuplicateSubjects, clearAllSubjects } from '../../firebase/subjectService';
+import { getStorage } from 'firebase/storage';
 
 export const SubjectList = () => {
-  const [subjects, setSubjects] = useState([
-    { 
-      code: 'MATH101', 
-      name: 'Araling Panlipunan', 
-      teacher: 'Mr. Ralp',
-      status: 'Active',
-      backgroundImage: null
-    },
-    { 
-      code: 'ENG105', 
-      name: 'English', 
-      teacher: 'Mrs. Gwap',
-      status: 'Inactive',
-      backgroundImage: null
-    }
-  ]);
+  const [subjects, setSubjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -32,6 +21,50 @@ export const SubjectList = () => {
     status: 'Active',
     backgroundImage: null
   });
+  
+  // Fetch subjects from Firebase on component mount
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        setLoading(true);
+        const subjectsData = await getAllSubjects();
+        setSubjects(subjectsData);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching subjects:', err);
+        setError('Failed to load subjects. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSubjects();
+
+    // Clean up any duplicate subjects that might exist in the database
+    const cleanupDuplicates = async () => {
+      try {
+        console.log('Checking for duplicate subjects...');
+        const removedCount = await cleanupDuplicateSubjects();
+        if (removedCount > 0) {
+          console.log(`Successfully removed ${removedCount} duplicate subjects`);
+        } else {
+          console.log('No duplicate subjects found');
+        }
+      } catch (err) {
+        console.error('Error cleaning up duplicates:', err);
+      }
+    };
+
+    cleanupDuplicates();
+
+    // Set up real-time listener for subjects collection
+    const unsubscribe = subscribeToSubjects((updatedSubjects) => {
+      setSubjects(updatedSubjects);
+    });
+
+    // Clean up listener on component unmount
+    return () => unsubscribe();
+  }, []);
 
   const itemsPerPage = 5; // Show 5 items per page
 
@@ -87,12 +120,21 @@ export const SubjectList = () => {
     return pageNumbers;
   };
 
+  // Filter subjects based on search term
+  const filteredSubjects = useMemo(() => {
+    return subjects.filter(subject => 
+      subject.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      subject.code?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      subject.teacher?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [subjects, searchTerm]);
+
   // Get current items
   const currentItems = useMemo(() => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    return subjects.slice(indexOfFirstItem, indexOfLastItem);
-  }, [subjects, currentPage]);
+    return filteredSubjects.slice(indexOfFirstItem, indexOfLastItem);
+  }, [filteredSubjects, currentPage, itemsPerPage]);
 
   // Handle page change
   const handlePageChange = (pageNumber) => {
@@ -101,36 +143,142 @@ export const SubjectList = () => {
     }
   };
 
-  const handleAddSubject = (e) => {
+  const handleAddSubject = async (e) => {
     e.preventDefault();
-    setSubjects([...subjects, { ...newSubject }]);
-    setNewSubject({
-      code: '',
-      name: '',
-      teacher: '',
-      status: 'Active',
-      backgroundImage: null
-    });
-    setShowAddModal(false);
+    try {
+      setLoading(true);
+      console.log('Adding new subject:', newSubject);
+      
+      // Validate subject data
+      if (!newSubject.code || !newSubject.name || !newSubject.teacher) {
+        alert('Please fill in all required fields: Code, Name, and Teacher');
+        setLoading(false);
+        return;
+      }
+      
+      // Check for duplicates in the current subjects list before trying to add
+      const isDuplicateCode = subjects.some(subject => 
+        subject.code.toLowerCase() === newSubject.code.toLowerCase()
+      );
+      const isDuplicateName = subjects.some(subject => 
+        subject.name.toLowerCase() === newSubject.name.toLowerCase()
+      );
+      
+      if (isDuplicateCode) {
+        alert(`A subject with code ${newSubject.code} already exists. Please use a different code.`);
+        setLoading(false);
+        return;
+      }
+      
+      if (isDuplicateName) {
+        alert(`A subject with name ${newSubject.name} already exists. Please use a different name.`);
+        setLoading(false);
+        return;
+      }
+      
+      // Clear the 'all subjects deleted' flag since we're adding a new subject
+      localStorage.removeItem('subjectsAllDeleted');
+      console.log('Cleared the all subjects deleted flag');
+      
+      // Add subject to Firebase
+      const addedSubject = await addSubject(
+        {
+          code: newSubject.code,
+          name: newSubject.name,
+          teacher: newSubject.teacher,
+          status: newSubject.status || 'Active'
+        },
+        newSubject.backgroundImage
+      );
+      
+      console.log('Subject added successfully:', addedSubject);
+      
+      // NOTE: We don't need to manually update the local state here
+      // The subscription to Firestore will automatically update the subjects list
+      // This prevents duplicates from appearing in the UI
+      
+      // Reset form
+      setNewSubject({
+        code: '',
+        name: '',
+        teacher: '',
+        status: 'Active',
+        backgroundImage: null
+      });
+      
+      // Close modal
+      setShowAddModal(false);
+      
+      // Show success message
+      alert(`Subject '${addedSubject.name}' added successfully!`);
+    } catch (err) {
+      console.error('Error adding subject:', err);
+      alert('Failed to add subject. ' + err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleEditSubject = (e) => {
+  const handleEditSubject = async (e) => {
     e.preventDefault();
-    setSubjects(subjects.map(subject => 
-      subject.code === currentSubject.code ? currentSubject : subject
-    ));
-    setShowEditModal(false);
+    try {
+      setLoading(true);
+      // Update subject in Firebase
+      await updateSubject(
+        currentSubject.id,
+        {
+          code: currentSubject.code,
+          name: currentSubject.name,
+          teacher: currentSubject.teacher,
+          status: currentSubject.status,
+          backgroundImageUrl: currentSubject.backgroundImageUrl
+        },
+        currentSubject.backgroundImage
+      );
+      
+      // Update local state
+      setSubjects(subjects.map(subject => 
+        subject.id === currentSubject.id ? currentSubject : subject
+      ));
+      setShowEditModal(false);
+    } catch (err) {
+      console.error('Error updating subject:', err);
+      alert('Failed to update subject. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleDeleteSubject = (code) => {
+  const handleDeleteSubject = async (id) => {
     if (window.confirm('Are you sure you want to delete this subject?')) {
-      setSubjects(subjects.filter(subject => subject.code !== code));
+      try {
+        setLoading(true);
+        // Delete subject from Firebase
+        await deleteSubject(id);
+        
+        // Update local state
+        const updatedSubjects = subjects.filter(subject => subject.id !== id);
+        setSubjects(updatedSubjects);
+        
+        // If this was the last subject, set a flag in localStorage
+        // This prevents the app from re-adding default subjects
+        if (updatedSubjects.length === 0) {
+          console.log('All subjects deleted, setting flag in localStorage');
+          localStorage.setItem('subjectsAllDeleted', 'true');
+        }
+      } catch (err) {
+        console.error('Error deleting subject:', err);
+        alert('Failed to delete subject. Please try again.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // Implement search functionality here
+    // Reset to first page when searching
+    setCurrentPage(1);
   };
 
   const handleFileChange = (e, isEditing = false) => {
@@ -144,14 +292,21 @@ export const SubjectList = () => {
     }
   };
 
+  // No longer needed - removed clear all subjects functionality
+
   return (
     <div className="subject-management">
+      {/* Loading and Error States */}
+      {loading && <div className="loading-message">Loading subjects...</div>}
+      {error && <div className="error-message">{error}</div>}
+
       {/* Header Section */}
       <div className="subject-management__header">
         <h1 className="subject-management__title">Manage Subjects</h1>
         <button 
-          className="subject-management__add-btn"
+          className="subject-management__add-btn" 
           onClick={() => setShowAddModal(true)}
+          disabled={loading}
         >
           <FaPlus /> Add New Subject
         </button>
@@ -163,10 +318,11 @@ export const SubjectList = () => {
           <FaSearch className="subject-management__search-icon" />
           <input
             type="text"
+            className="subject-management__search-input"
             placeholder="Search subjects..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="subject-management__search-input"
+            disabled={loading}
           />
         </div>
       </div>
@@ -184,38 +340,34 @@ export const SubjectList = () => {
             </tr>
           </thead>
           <tbody>
-            {currentItems.map(subject => (
-              <tr key={subject.code} className="subject-management__table-row">
+            {currentItems.map((subject) => (
+              <tr key={subject.id}>
                 <td>{subject.code}</td>
                 <td>{subject.name}</td>
                 <td>{subject.teacher}</td>
                 <td>
-                  <span className={`subject-management__status ${subject.status.toLowerCase()}`}>
+                  <span className={`subject-management__status ${subject.status?.toLowerCase()}`}>
                     {subject.status}
                   </span>
                 </td>
-                <td>
-                  <div className="subject-management__actions">
-                    <button 
-                      className="subject-management__action-btn edit"
-                      onClick={() => {
-                        setCurrentSubject(subject);
-                        setShowEditModal(true);
-                      }}
-                      title="Edit subject"
-                    >
-                      <FaPen />
-                      <span>Edit</span>
-                    </button>
-                    <button 
-                      className="subject-management__action-btn delete"
-                      onClick={() => handleDeleteSubject(subject.code)}
-                      title="Delete subject"
-                    >
-                      <FaTrash />
-                      <span>Delete</span>
-                    </button>
-                  </div>
+                <td className="subject-management__actions">
+                  <button 
+                    className="subject-management__edit-btn" 
+                    onClick={() => {
+                      setCurrentSubject(subject);
+                      setShowEditModal(true);
+                    }}
+                    disabled={loading}
+                  >
+                    <FaPen /> Edit
+                  </button>
+                  <button 
+                    className="subject-management__delete-btn" 
+                    onClick={() => handleDeleteSubject(subject.id)}
+                    disabled={loading}
+                  >
+                    <FaTrash /> Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -234,20 +386,18 @@ export const SubjectList = () => {
           >
             <FaChevronLeft />
           </button>
-
-          {getPageNumbers().map((pageNum, index) => (
+          
+          {getPageNumbers().map((page, index) => (
             <button
               key={index}
-              className={`subject-management__page-btn ${
-                pageNum === currentPage ? 'active' : ''
-              } ${pageNum === '...' ? 'ellipsis' : ''}`}
-              onClick={() => pageNum !== '...' && handlePageChange(pageNum)}
-              disabled={pageNum === '...'}
+              className={`subject-management__page-btn ${currentPage === page ? 'active' : ''}`}
+              onClick={() => typeof page === 'number' && handlePageChange(page)}
+              disabled={typeof page !== 'number'}
             >
-              {pageNum}
+              {page}
             </button>
           ))}
-
+          
           <button 
             className="subject-management__page-btn"
             onClick={() => handlePageChange(currentPage + 1)}
@@ -434,8 +584,13 @@ export const SubjectList = () => {
           </div>
         </div>
       )}
+
+      <div style={{color:'#5a6474', marginTop:'30px', textAlign:'center', padding:'15px', borderRadius:'5px', background:'#f8f9fa'}}>
+        "The system is currently under development and not yet finalized. Some features may still be incomplete, and further testing and refinement are ongoing to ensure the best possible performance and user experience".
+      </div>
     </div>
   );
 };
 
-export default SubjectList; 
+// Also export as default for flexibility
+export default SubjectList;

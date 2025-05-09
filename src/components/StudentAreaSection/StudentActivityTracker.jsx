@@ -115,6 +115,20 @@ export default function StudentActivityTracker() {
             </tbody>
           </table>
         </div>
+        {/* <div style={{
+          // background: '#f8f9ff',
+          // border: '1px solid #e3e6f0', 
+          borderRadius: 6,
+          padding: '12px 16px',
+          marginTop: 20,
+          color: '#5a6474',
+          fontSize: 15,
+          lineHeight: 1.8
+        }}>
+         "The system is currently under development and not yet finalized. Some features may still be incomplete, and further testing and refinement are ongoing to ensure the best possible performance and user experience".
+        </div> */}
+        <div style={{color:'#bbb', marginTop:'18px',color: '#5a6474' }}>"The system is currently under development and not yet finalized. Some features may still be incomplete, and further testing and refinement are ongoing to ensure the best possible performance and user experience".</div>
+
       </div>
     </div>
   );

@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read/write access to all users for all collections during development
+    // WARNING: These rules are for development only and should be restricted in production
+    match /{document=**} {
+      allow read, write: if true;
+    }
+    
+    // Explicit rules for subjects collection
+    match /subjects/{subjectId} {
+      allow read: if true;
+      allow write: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+    
+    // Explicit rules for users collection
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+    
+    // Explicit rules for verification codes
+    match /verificationCodes/{email} {
+      allow read: if true;
+      allow write: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+  }
+}

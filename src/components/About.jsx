@@ -85,10 +85,10 @@ export default function About() {
               <h3>Progress Tracking</h3>
               <p>Comprehensive tracking and analytics to monitor student progress and understanding.</p>
             </div>
-            <div className="feature-card">
+            {/* <div className="feature-card">
               <h3>Expert Support</h3>
               <p>Access to qualified historians and educators for guidance and support.</p>
-            </div>
+            </div> */}
           </div>
         </div>
 

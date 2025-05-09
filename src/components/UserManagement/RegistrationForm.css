@@ -1,33 +1,33 @@
 .registration-form {
   width: 100%;
-  max-width: 500px;
-  padding: 2rem;
+  max-width: 520px;
+  padding: 2.2rem;
 }
 
 .registration-form h2 {
   font-size: 1.5rem;
   color: #333;
-  margin-bottom: 2rem;
+  margin-bottom: 1.8rem;
   text-align: center;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.3rem;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
   color: #666;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.8rem 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   transition: border-color 0.2s;
 }
 
@@ -38,17 +38,17 @@
 
 .role-buttons {
   display: flex;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
 .role-button {
   flex: 1;
-  padding: 0.75rem;
+  padding: 0.9rem;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   background: none;
   color: #666;
-  font-size: 0.9rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -67,15 +67,15 @@
 .form-actions {
   display: flex;
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 1.8rem;
 }
 
 .cancel-button,
 .submit-button {
   flex: 1;
-  padding: 0.75rem;
+  padding: 0.8rem;
   border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s;
   border: none;
@@ -105,10 +105,87 @@
   cursor: not-allowed;
 }
 
+/* Verification Section Styles */
+.verification-section {
+  margin: 15px 0;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.verification-section h3 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.verification-link-container {
+  display: flex;
+  margin: 15px 0;
+}
+
+.verification-link-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.copy-button {
+  background: #008374;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.copy-button:hover {
+  background: #006d61;
+}
+
+.status-pending {
+  background-color: #fff4e5;
+  color: #b26a00;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.status-active {
+  background-color: #e6f4ea;
+  color: #219150;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.close-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.close-button:hover {
+  background-color: #e0e0e0;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .registration-form {
-    padding: 1.5rem;
+    padding: 1.2rem;
   }
 
   .role-buttons {
@@ -123,4 +200,26 @@
   .submit-button {
     width: 100%;
   }
-} 
+}
+
+/* Verification code display */
+.demo-code-container {
+  padding: 20px !important;
+  margin-bottom: 20px !important;
+  background-color: #f8f9fa !important;
+  border-radius: 10px !important;
+}
+
+.demo-code-container h3 {
+  font-size: 18px !important;
+  margin-bottom: 15px !important;
+  font-weight: 600 !important;
+}
+
+.demo-code-container div > div {
+  width: 45px !important;
+  height: 55px !important;
+  font-size: 26px !important;
+  margin: 0 4px !important;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12) !important;
+}

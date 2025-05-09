@@ -2096,8 +2096,12 @@ export default function ManageActivity() {
               </button>
             </div>
           </div>
+          
         </div>
+        
       )}
+              <div style={{color:'#bbb', marginTop:'38px',color: '#5a6474' }}>"The system is currently under development and not yet finalized. Some features may still be incomplete, and further testing and refinement are ongoing to ensure the best possible performance and user experience".</div>
+
     </div>
   );
 }

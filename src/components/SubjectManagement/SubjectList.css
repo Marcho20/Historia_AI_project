@@ -2,8 +2,8 @@
 .subject-management {
   padding: 2rem;
   background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
 /* Header Section */
@@ -14,27 +14,55 @@
   margin-bottom: 2rem;
 }
 
+.subject-management__header-buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
 .subject-management__title {
-  font-size: 1.75rem;
-  color: #7d7e82;
-  font-weight: 600;
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 500;
   margin: 0;
 }
 .subject-management__add-btn {
   background: #2196f3;
   color: white;
   border: none;
-  padding: 1.5rem 1rem;
-  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
   font-size: 0.85rem;
   font-weight: 500;
-  display: inline-flex; /* prevents full-width */
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
-  width: 160px;
+  box-shadow: none;
+  width: auto;
+}
+
+.subject-management__clear-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: none;
+  width: auto;
+}
+
+.subject-management__clear-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
 }
 
 
@@ -42,7 +70,6 @@
 .subject-management__add-btn:hover {
   background: #1976d2;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
 }
 
 /* Search Section */
@@ -84,8 +111,8 @@
 /* Table Section */
 .subject-management__table-wrapper {
   background: #ffffff;
-  border-radius: 12px;
-  border: 3px solid #e0e0e0;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
   overflow: hidden;
   margin-bottom: 2rem;
 }
@@ -97,21 +124,21 @@
 }
 
 .subject-management__table th {
-  background: #f8f9fa;
-  padding: 1rem 1.5rem;
+  background: #f5f7fa;
+  padding: 0.75rem 1rem;
   text-align: left;
   font-weight: 600;
-  color: #1a237e;
-  border-bottom: 2px solid #e0e0e0;
-  font-size: 0.9rem;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .subject-management__table td {
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1rem;
   color: #424242;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   border-bottom: 1px solid #e0e0e0;
   transition: background-color 0.2s ease;
 }
@@ -162,24 +189,48 @@
   transition: all 0.2s ease;
 }
 
-.subject-management__action-btn.edit {
-  background: rgba(255, 193, 7, 0.1);
-  color: #ff8f00;
+.subject-management__edit-btn {
+  background: #4ade80;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(74, 222, 128, 0.15);
 }
 
-.subject-management__action-btn.edit:hover {
-  background: rgba(255, 193, 7, 0.2);
-  transform: translateY(-1px);
+.subject-management__edit-btn:hover {
+  background: #22c55e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.25);
 }
 
-.subject-management__action-btn.delete {
-  background: rgba(244, 67, 54, 0.1);
-  color: #d32f2f;
+.subject-management__delete-btn {
+  background: #f87171;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(248, 113, 113, 0.15);
 }
 
-.subject-management__action-btn.delete:hover {
-  background: rgba(244, 67, 54, 0.2);
-  transform: translateY(-1px);
+.subject-management__delete-btn:hover {
+  background: #ef4444;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(248, 113, 113, 0.25);
 }
 
 /* Pagination */

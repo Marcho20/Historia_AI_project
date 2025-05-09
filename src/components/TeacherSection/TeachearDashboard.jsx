@@ -10,6 +10,8 @@ import {
   FaCalendarAlt,
   FaSignOutAlt
 } from 'react-icons/fa';
+import ScheduleModal from '../ScheduleModal';
+import ScheduleEditModal from '../ScheduleEditModal';
 import './TeachearDashboard.css';
 import Calendar from '../Calendar';
 import MyLessons from './MyLessons';
@@ -108,51 +110,51 @@ function TeacherDashboard() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [activeMenu, setActiveMenu] = useState('dashboard');
 
-  // Calendar schedule state and handlers
+  // >4 Calendar schedule  and handlers<
   const today = new Date().toISOString().split('T')[0];
   const [calendarEvents, setCalendarEvents] = useState([
-    { id: 1, title: "Math Class", time: "9:00AM-9:30AM", date: today },
-    { id: 2, title: "Science Lab", time: "1:00PM-2:30PM", date: today }
+    { id: 1, title: "Math Class", timeRange: "9:00AM-9:30AM", date: today },
+    { id: 2, title: "Science Lab", timeRange: "1:00PM-2:30PM", date: today }
   ]);
   const [editingId, setEditingId] = useState(null);
+  const [showScheduleEditModal, setShowScheduleEditModal] = useState(false);
+  const [scheduleToEdit, setScheduleToEdit] = useState(null);
   const [editForm, setEditForm] = useState({ title: "", time: "" });
-  const [addingNew, setAddingNew] = useState(false);
-  const [newForm, setNewForm] = useState({ title: "", start: "", end: "", date: today });
-  const [addError, setAddError] = useState("");
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
 
   const handleAddClick = () => {
-    setAddingNew(true);
-    setNewForm({ title: "", start: "", end: "", date: today });
-    setAddError("");
+    setShowScheduleModal(true);
+    setShowScheduleEditModal(false);
     setEditingId(null); // Prevent editing and adding at the same time
   };
-  const handleAddChange = (e) => {
-    setNewForm({ ...newForm, [e.target.name]: e.target.value });
-  };
-  const handleAddSave = () => {
-    if (!newForm.title.trim() || !newForm.start || !newForm.end || !newForm.date) {
-      setAddError("Please fill in all fields.");
-      return;
-    }
-    if (newForm.start >= newForm.end) {
-      setAddError("End time must be after start time.");
-      return;
-    }
+  const handleAddSchedule = (scheduleItem) => {
     setCalendarEvents(events => [
       ...events,
       {
         id: Date.now(),
-        title: newForm.title,
-        time: `${formatTime(newForm.start)}-${formatTime(newForm.end)}`,
-        date: newForm.date
+        title: scheduleItem.className,
+        time: scheduleItem.timeRange,
+        date: scheduleItem.date
       }
     ]);
-    setAddingNew(false);
-    setAddError("");
+    setShowScheduleModal(false);
   };
-  const handleAddCancel = () => {
-    setAddingNew(false);
-    setAddError("");
+  
+  const handleCloseScheduleModal = () => {
+    setShowScheduleModal(false);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowScheduleEditModal(false);
+    setScheduleToEdit(null);
+  };
+  
+  const handleSaveEdit = (updatedSchedule) => {
+    setCalendarEvents(prevEvents => 
+      prevEvents.map(event => 
+        event.id === updatedSchedule.id ? updatedSchedule : event
+      )
+    );
   };
   function formatTime(t) {
     // "13:30" to "1:30PM"
@@ -172,9 +174,14 @@ function TeacherDashboard() {
   const handleDelete = (id) => {
     setCalendarEvents(events => events.filter(event => event.id !== id));
   };
-  const handleEditClick = (event) => {
-    setEditingId(event.id);
-    setEditForm({ title: event.title, time: event.time });
+  function handleEditClick(event) {
+    const id = parseInt(event.currentTarget.dataset.id);
+    const scheduleItem = calendarEvents.find(item => item.id === id);
+    if (scheduleItem) {
+      setScheduleToEdit(scheduleItem);
+      setShowScheduleEditModal(true);
+      setShowScheduleModal(false);
+    }
   };
   const handleEditChange = (e) => {
     setEditForm({ ...editForm, [e.target.name]: e.target.value });
@@ -217,6 +224,21 @@ function TeacherDashboard() {
 
   return (
     <div className="admin-container">
+      {showScheduleModal && (
+        <div className="modal-portal">
+          <ScheduleModal 
+            onClose={handleCloseScheduleModal} 
+            onAddSchedule={handleAddSchedule} 
+          />
+        </div>
+      )}
+      {showScheduleEditModal && scheduleToEdit && (
+        <ScheduleEditModal
+          onClose={handleCloseEditModal}
+          onSaveEdit={handleSaveEdit}
+          scheduleToEdit={scheduleToEdit}
+        />
+      )}
       {/* Toggle Button */}
       <button className="menu-toggle" onClick={toggleSidebar}>
         <FaBars />
@@ -259,14 +281,13 @@ function TeacherDashboard() {
           {activeMenu === 'student-area' && (
             <div className="section-content">
               <StudentActivityTracker />
-              <div style={{color:'#bbb', marginTop:'18px'}}>This is the Student Area. Add your student-related features here.</div>
             </div>
           )}
           {activeMenu === 'dashboard' && (
             <>
               <div className="page-header">
                 <h1>Teacher Dashboard</h1>
-                <div className="user-welcome">Welcome, {user?.username}!</div>
+                <div className="user-welcome">Welcome back Admin {user?.username}!</div>
               </div>
               <div className="dashboard-grid">
                 {/* Total Students Card */}
@@ -295,103 +316,33 @@ function TeacherDashboard() {
                     <span className="card-title">Schedule</span>
                   </div>
                   <div className="card-body">
-                    {calendarEvents.length === 0 && !addingNew && (
+                    {calendarEvents.length === 0 && !showScheduleModal && (
                       <div style={{textAlign:'center', color:'#bbb', margin:'28px 0 18px 0', fontSize:'1.07rem'}}>
                         No schedules yet.<br/>
                         <button className="calendar-add-btn" onClick={handleAddClick} style={{marginTop:16}}>+ Add Schedule</button>
                       </div>
                     )}
-                    {calendarEvents.map(event => (
-                      <div key={event.id} style={{marginBottom: 10}}>
-                        <div className="calendar-date-label" style={{fontSize:'1.04rem', color:'#6d28d9', fontWeight:600, marginBottom:2}}>
-                          {formatDate(event.date)}
-                        </div>
-                        {editingId === event.id ? (
-                          <div className="calendar-edit-row">
-                            <input
-                              name="title"
-                              value={editForm.title}
-                              onChange={handleEditChange}
-                              className="calendar-edit-input"
-                              placeholder="Class Name"
-                              style={{fontSize:'1.09rem', fontWeight:600, marginBottom:3}}
-                            />
-                            <input
-                              name="time"
-                              value={editForm.time}
-                              onChange={handleEditChange}
-                              className="calendar-edit-input"
-                              placeholder="Time"
-                              style={{fontSize:'1.09rem', width:130, marginBottom:3}}
-                            />
-                            <button className="calendar-save-btn" onClick={() => handleEditSave(event.id)}>Save</button>
-                            <button className="calendar-cancel-btn" onClick={handleEditCancel}>Cancel</button>
+                    {calendarEvents.length > 0 && (
+                      <div className="schedule-list">
+                        {calendarEvents.map(event => (
+                          <div className="schedule-item" key={event.id}>
+                            <div className="calendar-date-label" style={{fontSize:'1.04rem', color:'#6d28d9', fontWeight:600, marginBottom:2}}>
+                              {formatDate(event.date)}
+                            </div>
+                            <div className="calendar-item">
+                              <span className="calendar-class-title" style={{fontWeight:700, fontSize:'1.13rem', color:'#312e81', marginRight:7}}>{event.title}</span>
+                              <span className="calendar-class-time" style={{fontWeight:600, fontSize:'1.11rem', color:'#444', marginRight:8}}>{event.timeRange || event.time}</span>
+                              <span className="calendar-edit">
+                                <span onClick={handleEditClick} data-id={event.id} style={{cursor:'pointer', fontSize:'1.15rem'}} title="Edit">✏️</span>
+                                <span onClick={() => handleDelete(event.id)} style={{cursor:'pointer', marginLeft: 8, fontSize:'1.15rem'}} title="Delete">🗑️</span>
+                              </span>
+                            </div>
                           </div>
-                        ) : (
-                          <div className="calendar-item">
-                            <span className="calendar-class-title" style={{fontWeight:700, fontSize:'1.13rem', color:'#312e81', marginRight:7}}>{event.title}</span>
-                            <span className="calendar-class-time" style={{fontWeight:600, fontSize:'1.11rem', color:'#444', marginRight:8}}>{event.time}</span>
-                            <span className="calendar-edit">
-                              <span onClick={() => handleEditClick(event)} style={{cursor:'pointer', fontSize:'1.15rem'}} title="Edit">✏️</span>
-                              <span onClick={() => handleDelete(event.id)} style={{cursor:'pointer', marginLeft: 8, fontSize:'1.15rem'}} title="Delete">🗑️</span>
-                            </span>
-                          </div>
-                        )}
+                        ))}
                       </div>
-                    ))}
-                    {addingNew && (
-                      <>
-                        <div className="modal-overlay">
-                          <div className="calendar-modal">
-                            <h3 style={{marginTop:0, marginBottom:10, color:'#7c3aed'}}>Add Schedule</h3>
-                            <label style={{fontWeight:600, fontSize:'1.08rem', color:'#7c3aed', marginBottom:4, display:'block'}}>Date</label>
-                            <input
-                              name="date"
-                              type="date"
-                              value={newForm.date}
-                              onChange={handleAddChange}
-                              className="calendar-edit-input"
-                              style={{marginBottom:10, fontSize:'1.09rem', width: '100%'}}
-                            />
-                            <label style={{fontWeight:600, fontSize:'1.08rem', color:'#312e81', marginBottom:4, display:'block'}}>Class Name</label>
-                            <input
-                              name="title"
-                              value={newForm.title}
-                              onChange={handleAddChange}
-                              className="calendar-edit-input"
-                              placeholder="Class Name"
-                              style={{marginBottom:10, fontSize:'1.09rem', width: '100%'}}
-                            />
-                            <label style={{fontWeight:600, fontSize:'1.08rem', color:'#312e81', marginBottom:4, display:'block'}}>Time</label>
-                            <div style={{display:'flex', gap:16, marginBottom:12}}>
-                              <input
-                                name="start"
-                                type="time"
-                                value={newForm.start}
-                                onChange={handleAddChange}
-                                className="calendar-edit-input"
-                                style={{width:130, fontSize:'1.13rem', padding:'10px 14px'}}
-                              />
-                              <span style={{alignSelf:'center', color:'#888', fontWeight:600}}>to</span>
-                              <input
-                                name="end"
-                                type="time"
-                                value={newForm.end}
-                                onChange={handleAddChange}
-                                className="calendar-edit-input"
-                                style={{width:130, fontSize:'1.13rem', padding:'10px 14px'}}
-                              />
-                            </div>
-                            {addError && <div style={{color:'#ff6384', marginBottom:10, fontSize:'0.97rem'}}>{addError}</div>}
-                            <div style={{display:'flex', gap:10, justifyContent:'flex-end'}}>
-                              <button className="calendar-save-btn" onClick={handleAddSave}>Add</button>
-                              <button className="calendar-cancel-btn" onClick={handleAddCancel}>Cancel</button>
-                            </div>
-                          </div>
-                        </div>
-                      </>
                     )}
-                    {calendarEvents.length > 0 && !addingNew && (
+                    
+                    {calendarEvents.length > 0 && !showScheduleModal && (
                       <div style={{textAlign:'center', marginTop:18}}>
                         <button className="calendar-add-btn" onClick={handleAddClick}>+ Add Schedule</button>
                       </div>
@@ -585,6 +536,7 @@ function TeacherDashboard() {
           {activeMenu === 'my-lesson' && (
             <div className="section-content">
               <MyLessons />
+              <div style={{color:'#bbb', marginTop:'18px',color: '#5a6474' }}>"The system is currently under development and not yet finalized. Some features may still be incomplete, and further testing and refinement are ongoing to ensure the best possible performance and user experience".</div>
             </div>
           )}
           {activeMenu === 'calendar' && (
