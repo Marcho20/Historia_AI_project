@@ -1,0 +1,292 @@
+/* StudentBadges.css */
+.student-badges-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.student-badges-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.student-badges-header h2 {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.badges-subtitle {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.badges-error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.badges-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.2rem;
+  color: #3498db;
+}
+
+/* Badge Grid */
+.student-badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.student-badge-card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid #3498db;
+  cursor: pointer;
+  height: 100%;
+}
+
+.student-badge-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.student-badge-image {
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3498db;
+  padding: 16px;
+}
+
+.student-badge-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.badge-icon {
+  font-size: 70px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.badge-icon.achievement {
+  color: #f1c40f;
+}
+
+.badge-icon.excellence {
+  color: #e74c3c;
+}
+
+.badge-icon.milestone {
+  color: #9b59b6;
+}
+
+.student-badge-info {
+  padding: 16px;
+  text-align: center;
+}
+
+.student-badge-info h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.2rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.badge-date {
+  color: #7f8c8d;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Empty State */
+.no-badges-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.no-badges-icon {
+  font-size: 80px;
+  color: #ecf0f1;
+  margin-bottom: 20px;
+}
+
+.no-badges-container h3 {
+  color: #34495e;
+  margin: 0 0 12px 0;
+  font-size: 1.5rem;
+}
+
+.no-badges-container p {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  max-width: 400px;
+}
+
+/* Badge Details Modal */
+.badge-details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.badge-details-modal {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-details-header {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3498db;
+  padding: 24px;
+}
+
+.badge-details-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.badge-details-icon {
+  font-size: 100px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.badge-details-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.badge-details-content h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.badge-details-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.badge-details-description {
+  color: #34495e;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.badge-details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.badge-details-section h4 {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.badge-details-section p {
+  margin: 0;
+  color: #34495e;
+  font-size: 1.1rem;
+}
+
+.badge-category-tag {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  width: fit-content;
+}
+
+.badge-reason {
+  font-style: italic;
+  background-color: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 3px solid #3498db;
+}
+
+.close-badge-details-btn {
+  padding: 12px 24px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 16px;
+  align-self: center;
+}
+
+.close-badge-details-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .student-badges-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  
+  .badge-details-modal {
+    width: 95%;
+  }
+}

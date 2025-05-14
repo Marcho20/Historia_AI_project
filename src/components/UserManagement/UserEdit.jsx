@@ -7,6 +7,7 @@ export const UserEdit = ({ user, onClose, onUserUpdated }) => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
+    password: '',
     role: '',
     status: ''
   });
@@ -18,6 +19,8 @@ export const UserEdit = ({ user, onClose, onUserUpdated }) => {
       setFormData({
         fullName: user.fullName || user.name || '',
         email: user.email || '',
+        // Use sample password from the user list component
+        password: user.id === 'demo-1' ? 'Password123' : 'Demo1234',
         role: user.role || '',
         status: user.status || 'Active'
       });
@@ -54,6 +57,7 @@ export const UserEdit = ({ user, onClose, onUserUpdated }) => {
       // Update user role and profile
       await updateUserProfile(user.id, {
         fullName: formData.fullName,
+        password: formData.password,
         role: formData.role,
         status: formData.status
       });
@@ -63,6 +67,7 @@ export const UserEdit = ({ user, onClose, onUserUpdated }) => {
         ...user,
         fullName: formData.fullName,
         name: formData.fullName, // For compatibility
+        password: formData.password,
         role: formData.role,
         status: formData.status
       };
@@ -110,7 +115,20 @@ export const UserEdit = ({ user, onClose, onUserUpdated }) => {
         </div>
 
         <div className="form-group">
-          <label>Role</label>
+          <label htmlFor="password">Password *</label>
+          <input
+            type="text"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="section-label">Role Selection</label>
           <div className="role-buttons">
             <button
               type="button"
@@ -137,28 +155,28 @@ export const UserEdit = ({ user, onClose, onUserUpdated }) => {
         </div>
 
         <div className="form-group">
-          <label>Status</label>
+          <label className="section-label">Status Selection</label>
           <div className="status-buttons">
             <button
               type="button"
               className={`status-button ${formData.status === 'Active' ? 'active' : ''}`}
               onClick={() => handleStatusSelect('Active')}
             >
-              Active
+              <span className="button-text">Active</span>
             </button>
             <button
               type="button"
               className={`status-button ${formData.status === 'Pending Verification' ? 'active' : ''}`}
               onClick={() => handleStatusSelect('Pending Verification')}
             >
-              Pending
+              <span className="button-text">Pending</span>
             </button>
             <button
               type="button"
               className={`status-button ${formData.status === 'Suspended' ? 'active' : ''}`}
               onClick={() => handleStatusSelect('Suspended')}
             >
-              Suspended
+              <span className="button-text">Suspended</span>
             </button>
           </div>
         </div>

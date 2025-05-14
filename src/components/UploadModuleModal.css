@@ -14,42 +14,40 @@
 .upload-module-content {
   background-color: white;
   width: 100%;
-  max-width: 680px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  padding: 36px 40px 40px;
+  padding: 24px;
 }
 
 .upload-module-title {
-  font-size: 44px;
+  font-size: 24px;
   font-weight: 600;
-  color: #444a6c;
-  margin-bottom: 40px;
+  color: #333;
+  margin-bottom: 20px;
   text-align: center;
 }
 
 .upload-module-subject-container {
-  background-color: #f7f8fc;
   width: 100%;
-  border-radius: 8px;
-  padding: 0;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   overflow: hidden;
 }
 
 .upload-module-subject-background {
   width: 100%;
-  min-height: 180px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  background-color: #f39c12;
+  border-radius: 4px;
 }
 
 .upload-module-subject-background::before {
@@ -64,31 +62,20 @@
 }
 
 .upload-module-subject-name {
-  font-size: 26px;
-  color: #444;
+  font-size: 20px;
+  color: white;
   font-weight: 600;
   margin-bottom: 0;
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.85);
-  padding: 14px 26px;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 2;
+  text-transform: uppercase;
 }
 
-.upload-module-options {
+.upload-module-actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
-.upload-module-option-text {
-  font-size: 18px;
-  color: #444;
-  min-width: 30px;
-  text-align: center;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .upload-module-or {
@@ -106,29 +93,27 @@
 }
 
 .upload-module-btn {
-  padding: 14px 36px;
-  border-radius: 6px;
-  font-size: 17px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 10px;
   cursor: pointer;
   transition: all 0.2s;
-  min-width: 150px;
   justify-content: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: none;
 }
 
 .upload-module-btn-icon {
-  font-size: 18px;
+  font-size: 14px;
   margin-right: 4px;
 }
 
 .upload-module-cancel-btn {
   background-color: #f5f5f5;
-  color: #666;
-  border: none;
+  color: #333;
+  border: 1px solid #ddd;
 }
 
 .upload-module-cancel-btn:hover {
@@ -136,11 +121,11 @@
 }
 
 .upload-module-accept-btn {
-  background-color: #f5f5f5;
-  color: #666;
+  background-color: #4285f4;
+  color: white;
   border: none;
 }
 
 .upload-module-accept-btn:hover {
-  background-color: #e8e8e8;
-} 
+  background-color: #3367d6;
+}

@@ -9,6 +9,12 @@ import { toast, ToastContainer } from 'react-toastify';
 
 export const UserList = () => {
   const [users, setUsers] = useState([]);
+  
+  // Sample passwords for demo purposes
+  const demoPasswords = {
+    'demo-1': 'Password123',
+    'default': 'Demo1234'
+  };
   const [showAddUser, setShowAddUser] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -118,6 +124,7 @@ export const UserList = () => {
               <th>STATUS</th>
               <th>CREATED ON</th>
               <th>LAST SEEN</th>
+              <th>PASSWORD</th>
               <th>ACTIONS</th>
             </tr>
           </thead>
@@ -128,19 +135,18 @@ export const UserList = () => {
                 <td>{user.role}</td>
                 <td>{user.email}</td>
                 <td>
-                  <span className={`status-badge ${user.status.toLowerCase()}`}>
+                  <span className={`status-badge ${user.status && user.status.toLowerCase() === 'active' ? 'active' : 'pending'}`}>
                     {user.status}
                   </span>
                 </td>
                 <td>{user.createdOn && user.createdOn.toDate ? user.createdOn.toDate().toLocaleString() : user.createdOn || ''}</td>
                 <td>{user.lastSeen && user.lastSeen.toDate ? user.lastSeen.toDate().toLocaleString() : user.lastSeen || ''}</td>
+                <td>
+                  <div className="password-field">
+                    <FiLock className="password-icon" /> {demoPasswords[user.id] || demoPasswords['default']}
+                  </div>
+                </td>
                 <td className="actions">
-                  <button className="action-button" title="Reset Password">
-                    <FiLock />
-                  </button>
-                  <button className="action-button" title="View Profile">
-                    <FiUser />
-                  </button>
                   <button 
                     className="action-button edit-button"
                     title="Edit User"

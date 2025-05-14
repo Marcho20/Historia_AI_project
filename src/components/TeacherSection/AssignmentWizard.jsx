@@ -13,12 +13,8 @@ const AssignmentWizard = () => {
   const [allowMultipleAttempts, setAllowMultipleAttempts] = useState(false);
 
   const subjects = [
-    { id: 1, name: "Mathematics", icon: "fa-calculator" },
-    { id: 2, name: "Science", icon: "fa-flask" },
-    { id: 3, name: "English", icon: "fa-book" },
-    { id: 4, name: "History", icon: "fa-landmark" },
-    { id: 5, name: "Geography", icon: "fa-globe-americas" },
-    { id: 6, name: "Art", icon: "fa-palette" },
+    { id: 1, name: "Araling Panlipunan", icon: "fa-landmark" },
+    // Other subjects will be added later by admin
   ];
 
   const assignmentTypes = [
@@ -263,13 +259,8 @@ const AssignmentWizard = () => {
   );
   // ... The rest of the render functions and logic (renderQuestionEditor, renderSettingsPanel, renderReviewScreen, renderPublishScreen, renderCurrentStep, isNextDisabled, etc.) are identical to your provided code and will be included in the file ...
 
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  // Using a hardcoded date instead of the current date
+  const formattedDate = "Monday, May 17, 2025";
 
   return (
     <div className="min-h-screen bg-gray-50">

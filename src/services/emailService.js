@@ -16,23 +16,23 @@ init(USER_ID);
  * @param {string} verificationCode - The verification code
  * @returns {Promise} - Promise resolving to the EmailJS response
  */
-// export const sendVerificationEmail = async (email, fullName, verificationCode) => {
-//   try {
-//     const templateParams = {
-//       to_email: email,
-//       to_name: fullName,
-//       verification_code: verificationCode,
-//       from_name: 'Historia AI'
-//     };
+export const sendVerificationEmail = async (email, fullName, verificationCode) => {
+  try {
+    const templateParams = {
+      to_email: email,
+      to_name: fullName,
+      verification_code: verificationCode,
+      from_name: 'Historia AI'
+    };
     
-//     const response = await send(SERVICE_ID, TEMPLATE_ID, templateParams);
-//     console.log('Email sent successfully:', response);
-//     return { success: true, response };
-//   } catch (error) {
-//     console.error('Error sending email:', error);
-//     throw error;
-//   }
-// };
+    const response = await send(SERVICE_ID, TEMPLATE_ID, templateParams);
+    console.log('Email sent successfully:', response);
+    return { success: true, response };
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
+};
 
 /**
  * For development: Log verification code instead of sending email

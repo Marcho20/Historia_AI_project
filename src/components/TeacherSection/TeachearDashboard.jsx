@@ -8,7 +8,16 @@ import {
   FaUserGraduate,
   FaBook,
   FaCalendarAlt,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaChartLine,
+  FaChartBar,
+  FaExclamationTriangle,
+  FaCheckCircle,
+  FaClock,
+  FaLightbulb,
+  FaMedal,
+  FaComments,
+  FaTimes
 } from 'react-icons/fa';
 import ScheduleModal from '../ScheduleModal';
 import ScheduleEditModal from '../ScheduleEditModal';
@@ -16,6 +25,9 @@ import './TeachearDashboard.css';
 import Calendar from '../Calendar';
 import MyLessons from './MyLessons';
 import ManageActivity from '../ManageActivity/ManageActivity';
+import { BadgeList } from '../BadgeManagement/BadgeList';
+import ChatHistory from './ChatHistory';
+import './ChatHistory.css';
 
 function TeacherDashboard() {
 
@@ -109,6 +121,7 @@ function TeacherDashboard() {
   const [user, setUser] = useState(null);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [activeMenu, setActiveMenu] = useState('dashboard');
+  const [showChatHistoryModal, setShowChatHistoryModal] = useState(false);
 
   // >4 Calendar schedule  and handlers<
   const today = new Date().toISOString().split('T')[0];
@@ -219,7 +232,9 @@ function TeacherDashboard() {
     { id: 'student-area', label: 'Student Area', icon: <FaUserGraduate /> },
     { id: 'manage-activity', label: 'Manage Activity', icon: <FaUserGraduate /> },
     { id: 'my-lesson', label: 'My Lesson', icon: <FaBook /> },
-    { id: 'calendar', label: 'Calendar', icon: <FaCalendarAlt /> }
+    { id: 'data-analysis', label: 'Data Analysis', icon: <FaChartLine /> },
+    { id: 'badges', label: 'Badges', icon: <FaMedal /> },
+    { id: 'calendar', label: 'Calendar', icon: <FaCalendarAlt /> },
   ];
 
   return (
@@ -238,6 +253,83 @@ function TeacherDashboard() {
           onSaveEdit={handleSaveEdit}
           scheduleToEdit={scheduleToEdit}
         />
+      )}
+      
+      {/* Chat History Modal */}
+      {showChatHistoryModal && (
+        <div className="modal-portal" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div className="modal-content" style={{
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            width: '90%',
+            maxWidth: '1200px',
+            maxHeight: '90vh',
+            overflow: 'hidden',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            <div className="modal-header" style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '16px 20px',
+              borderBottom: '1px solid #e5e7eb',
+              backgroundColor: '#f9fafb'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{
+                  width: '32px',
+                  height: '32px',
+                  backgroundColor: '#8b5cf6',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '12px'
+                }}>
+                  <FaComments style={{ fontSize: '16px', color: 'white' }} />
+                </div>
+                <h2 style={{ margin: 0, fontSize: '18px', fontWeight: '600', color: '#111827' }}>Student Chat History</h2>
+              </div>
+              <button 
+                onClick={() => setShowChatHistoryModal(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '20px',
+                  color: '#6b7280',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '4px',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <div className="modal-body" style={{ flex: 1, overflow: 'auto' }}>
+              <ChatHistory />
+            </div>
+          </div>
+        </div>
       )}
       {/* Toggle Button */}
       <button className="menu-toggle" onClick={toggleSidebar}>
@@ -287,8 +379,9 @@ function TeacherDashboard() {
             <>
               <div className="page-header">
                 <h1>Teacher Dashboard</h1>
-                <div className="user-welcome">Welcome back Admin {user?.username}!</div>
+                <div className="user-welcome">Welcome back Teacher {user?.username}!</div>
               </div>
+              
               <div className="dashboard-grid">
                 {/* Total Students Card */}
                 <div className="dashboard-card students-total">
@@ -428,31 +521,55 @@ function TeacherDashboard() {
                   </div>
                 </div>
 
+
+                
                 {/* Student List Card */}
-                <div className="dashboard-card students-list">
+                <div className="dashboard-card student-list">
                   <div className="card-header">
+                    <span className="card-icon">📋</span>
                     <span className="card-title">Student List</span>
                   </div>
                   <div className="card-body">
                     <table className="student-table">
                       <thead>
-                        <tr><th>Name</th><th>Grade</th><th>Subject</th></tr>
+                        <tr>
+                          <th>Name</th>
+                          <th>Grade</th>
+                          <th>Subject</th>
+                        </tr>
                       </thead>
                       <tbody>
-                        <tr><td>Emma Thompson</td><td>Grade 2</td><td>Math</td></tr>
-                        <tr><td>James Wilson</td><td>Grade 2</td><td>Science</td></tr>
-                        <tr><td>Sophia Davis</td><td>Grade 2</td><td>English</td></tr>
-                        <tr><td>Noah Martinez</td><td>Grade 2</td><td>Art</td></tr>
+                        <tr>
+                          <td>Emma Thompson</td>
+                          <td>Grade 2</td>
+                          <td>Math</td>
+                        </tr>
+                        <tr>
+                          <td>James Wilson</td>
+                          <td>Grade 2</td>
+                          <td>Science</td>
+                        </tr>
+                        <tr>
+                          <td>Sophia Davis</td>
+                          <td>Grade 2</td>
+                          <td>English</td>
+                        </tr>
+                        <tr>
+                          <td>Noah Martinez</td>
+                          <td>Grade 2</td>
+                          <td>Art</td>
+                        </tr>
                       </tbody>
                     </table>
                     <div className="more-info-link">more info <span className="info-arrow">→</span></div>
                   </div>
                 </div>
-
+                
                 {/* Modern To-do List Card */}
                 <div className="dashboard-card todo-list">
                   <div className="card-header">
-                    <span className="card-title">To-do List</span>
+                    <span className="card-icon">📝</span>
+                    <span className="card-title">To-Do List</span>
                   </div>
                   <div className="card-body">
                     <form className="todo-form" onSubmit={handleTodoAdd} style={{marginBottom:20}}>
@@ -514,6 +631,37 @@ function TeacherDashboard() {
                   </div>
                 </div>
 
+                {/* Chat History Card - Clickable to open modal */}
+                <div 
+                  className="dashboard-card chat-history-card" 
+                  style={{ 
+                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '30px',
+                    background: 'linear-gradient(to bottom, #f0f4ff, #e6eeff)'
+                  }}
+                  onClick={() => setShowChatHistoryModal(true)}
+                >
+                  <div style={{ 
+                    width: '80px', 
+                    height: '80px', 
+                    backgroundColor: '#6366f1', 
+                    borderRadius: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '15px',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                  }}>
+                    <FaComments style={{ fontSize: '40px', color: '#fff' }} />
+                  </div>
+                  <h3 style={{ margin: '0', color: '#4338ca', fontSize: '18px', fontWeight: '600' }}>Student Chat History</h3>
+                  <p style={{ margin: '5px 0 0', color: '#6b7280', fontSize: '14px' }}>Click Here</p>
+                </div>
+
 
                 {/* My Lessons Card */}
                 <div className="dashboard-card my-lessons">
@@ -539,9 +687,292 @@ function TeacherDashboard() {
               <div style={{color:'#bbb', marginTop:'18px',color: '#5a6474' }}>"The system is currently under development and not yet finalized. Some features may still be incomplete, and further testing and refinement are ongoing to ensure the best possible performance and user experience".</div>
             </div>
           )}
+          {activeMenu === 'badges' && (
+            <div>
+              <BadgeList />
+            </div>
+          )}
+          
+
+
           {activeMenu === 'calendar' && (
             <div className="section-content">
               <Calendar />
+            </div>
+          )}
+          {activeMenu === 'data-analysis' && (
+            <div className="section-content">
+              <h2>Data Analysis</h2>
+              <p>This section provides AI-powered insights into student performance and learning patterns.</p>
+              
+              <div className="data-analysis-container" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div className="student-performance-card" style={{ 
+                  background: '#fff', 
+                  borderRadius: '12px', 
+                  padding: '24px', 
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+                }}>
+                  <h3 style={{ marginBottom: '16px', color: '#3975e8', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <FaChartBar /> Student Performance Analysis
+                  </h3>
+                  
+                  <div className="student-selector" style={{ marginBottom: '20px' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Piliin ang Estudyante:</label>
+                    <select style={{ 
+                      padding: '8px 12px', 
+                      borderRadius: '6px', 
+                      border: '1px solid #ddd',
+                      width: '300px',
+                      fontSize: '15px'
+                    }}>
+                      <option value="juan">Juan Dela Cruz</option>
+                      <option value="maria">Maria Santos</option>
+                      <option value="pedro">Pedro Reyes</option>
+                      <option value="ana">Ana Gonzales</option>
+                      <option value="jose">Jose Mendoza</option>
+                    </select>
+                  </div>
+                  
+                  <div className="assessment-selector" style={{ marginBottom: '20px' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Select Assessment:</label>
+                    <select style={{ 
+                      padding: '8px 12px', 
+                      borderRadius: '6px', 
+                      border: '1px solid #ddd',
+                      width: '300px',
+                      fontSize: '15px'
+                    }}>
+                      <option value="quiz1">Araling Panlipunan: Mga Bayani ng Pilipinas</option>
+                      <option value="quiz2">Araling Panlipunan: Mga Lugar sa Pilipinas</option>
+                      <option value="assignment1">Gawain: Mga Simbolo ng Pilipinas</option>
+                    </select>
+                  </div>
+                  
+                  <div className="performance-summary" style={{ 
+                    background: '#f8fafc', 
+                    padding: '16px', 
+                    borderRadius: '8px',
+                    marginBottom: '20px'
+                  }}>
+                    <h4 style={{ marginBottom: '12px' }}>Performance Summary</h4>
+                    <div style={{ display: 'flex', gap: '20px', marginBottom: '16px' }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '14px', color: '#666' }}>Score</div>
+                        <div style={{ fontSize: '24px', fontWeight: '700' }}>20/25</div>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '14px', color: '#666' }}>Time Spent</div>
+                        <div style={{ fontSize: '24px', fontWeight: '700' }}>12:00 min</div>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '14px', color: '#666' }}>Completion</div>
+                        <div style={{ fontSize: '24px', fontWeight: '700' }}>100%</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="detailed-analysis">
+                    <h4 style={{ marginBottom: '16px' }}>Detailed Question Analysis</h4>
+                    
+                    <div className="question-analysis-item" style={{ 
+                      border: '1px solid #eee', 
+                      borderRadius: '8px', 
+                      padding: '16px',
+                      marginBottom: '12px'
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                        <div style={{ fontWeight: '600' }}>Question 1: Who is the national hero of the Philippines?</div>
+                        <div style={{ 
+                          background: '#ffeaea', 
+                          color: '#e35d6a',
+                          padding: '2px 10px',
+                          borderRadius: '12px',
+                          fontSize: '13px',
+                          fontWeight: '600',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}>
+                          <FaExclamationTriangle size={12} /> Incorrect
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '20px', fontSize: '14px', marginBottom: '12px' }}>
+                        <div>
+                          <span style={{ color: '#666' }}>Time Spent:</span> <span style={{ fontWeight: '500' }}>4m 15s</span>
+                        </div>
+                        <div>
+                          <span style={{ color: '#666' }}>Difficulty:</span> <span style={{ fontWeight: '500' }}>Medium</span>
+                        </div>
+                        <div>
+                          <span style={{ color: '#666' }}>Category:</span> <span style={{ fontWeight: '500' }}>Dates and Timelines</span>
+                        </div>
+                      </div>
+                      <div style={{ 
+                        background: '#f0f7ff', 
+                        padding: '12px', 
+                        borderRadius: '6px',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '8px'
+                      }}>
+                        <FaLightbulb style={{ color: '#3975e8', marginTop: '3px' }} />
+                        <div>
+                          <div style={{ fontWeight: '600', marginBottom: '4px', color: '#3975e8' }}>Analysis:</div>
+                          <p style={{ margin: 0, fontSize: '14px' }}>
+                            Mas matagal ang ginugol na oras ng estudyante sa tanong na ito (4m 15s kumpara sa karaniwang 1m 30s) at mali pa rin ang sagot. 
+                            Nahihirapan ang estudyante sa pag-alam ng mga bayani ng Pilipinas at ang kanilang mga kontribusyon.
+                          </p>
+                          <div style={{ fontWeight: '600', marginTop: '8px', marginBottom: '4px', color: '#3975e8' }}>Recommendation:</div>
+                          <p style={{ margin: 0, fontSize: '14px' }}>
+                            Gumamit ng mga flashcards na may larawan ng mga bayani ng Pilipinas. Maaari ring gumawa ng simpleng 
+                            aktibidad tulad ng pagkonekta ng bayani sa kanilang mga kontribusyon para sa mas madaling pag-alaala.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="question-analysis-item" style={{ 
+                      border: '1px solid #eee', 
+                      borderRadius: '8px', 
+                      padding: '16px',
+                      marginBottom: '12px'
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                        <div style={{ fontWeight: '600' }}>Tanong 2: Ano ang kulay ng watawat ng Pilipinas?</div>
+                        <div style={{ 
+                          background: '#e3fbe7', 
+                          color: '#34b77a',
+                          padding: '2px 10px',
+                          borderRadius: '12px',
+                          fontSize: '13px',
+                          fontWeight: '600',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}>
+                          <FaCheckCircle size={12} /> Correct
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '20px', fontSize: '14px', marginBottom: '12px' }}>
+                        <div>
+                          <span style={{ color: '#666' }}>Time Spent:</span> <span style={{ fontWeight: '500' }}>1m 20s</span>
+                        </div>
+                        <div>
+                          <span style={{ color: '#666' }}>Difficulty:</span> <span style={{ fontWeight: '500' }}>Hard</span>
+                        </div>
+                        <div>
+                          <span style={{ color: '#666' }}>Category:</span> <span style={{ fontWeight: '500' }}>Important Figures</span>
+                        </div>
+                      </div>
+                      <div style={{ 
+                        background: '#f0f7ff', 
+                        padding: '12px', 
+                        borderRadius: '6px',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '8px'
+                      }}>
+                        <FaLightbulb style={{ color: '#3975e8', marginTop: '3px' }} />
+                        <div>
+                          <div style={{ fontWeight: '600', marginBottom: '4px', color: '#3975e8' }}>Analysis:</div>
+                          <p style={{ margin: 0, fontSize: '14px' }}>
+                            The student answered correctly and quickly. This shows that the student has strong knowledge about the symbols of the Philippines.
+                          </p>
+                          <div style={{ fontWeight: '600', marginTop: '8px', marginBottom: '4px', color: '#3975e8' }}>Recommendation:</div>
+                          <p style={{ margin: 0, fontSize: '14px' }}>
+                            The student is good at identifying Philippine symbols. Consider giving them deeper activities about the meaning of colors and symbols to further enhance their knowledge.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="question-analysis-item" style={{ 
+                      border: '1px solid #eee', 
+                      borderRadius: '8px', 
+                      padding: '16px'
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                        <div style={{ fontWeight: '600' }}>Question 3: On which island is Manila located?</div>
+                        <div style={{ 
+                          background: '#ffeaea', 
+                          color: '#e35d6a',
+                          padding: '2px 10px',
+                          borderRadius: '12px',
+                          fontSize: '13px',
+                          fontWeight: '600',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}>
+                          <FaExclamationTriangle size={12} /> Incorrect
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '20px', fontSize: '14px', marginBottom: '12px' }}>
+                        <div>
+                          <span style={{ color: '#666' }}>Time Spent:</span> <span style={{ fontWeight: '500' }}>3m 05s</span>
+                        </div>
+                        <div>
+                          <span style={{ color: '#666' }}>Difficulty:</span> <span style={{ fontWeight: '500' }}>Hard</span>
+                        </div>
+                        <div>
+                          <span style={{ color: '#666' }}>Category:</span> <span style={{ fontWeight: '500' }}>Scientific Achievements</span>
+                        </div>
+                      </div>
+                      <div style={{ 
+                        background: '#f0f7ff', 
+                        padding: '12px', 
+                        borderRadius: '6px',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '8px'
+                      }}>
+                        <FaLightbulb style={{ color: '#3975e8', marginTop: '3px' }} />
+                        <div>
+                          <div style={{ fontWeight: '600', marginBottom: '4px', color: '#3975e8' }}>Analysis:</div>
+                          <p style={{ margin: 0, fontSize: '14px' }}>
+                            Matagal nag-isip ang estudyante sa tanong na ito pero mali pa rin ang sagot. May kalituhan sa 
+                            pagkakaiba-iba ng mga pangunahing isla ng Pilipinas at kung saan matatagpuan ang mga lungsod.
+                          </p>
+                          <div style={{ fontWeight: '600', marginTop: '8px', marginBottom: '4px', color: '#3975e8' }}>Recommendation:</div>
+                          <p style={{ margin: 0, fontSize: '14px' }}>
+                            Gumamit ng mapa ng Pilipinas na may malinaw na pagkakahati ng mga isla at probinsya. Maaari ring 
+                            gumawa ng simpleng laro na nagkokonekta ng mga lugar sa kanilang lokasyon sa mapa para mas madaling matandaan.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="teaching-recommendations" style={{ 
+                    marginTop: '24px',
+                    background: '#f8fafc', 
+                    padding: '16px', 
+                    borderRadius: '8px'
+                  }}>
+                    <h4 style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <FaLightbulb /> Overall Teaching Recommendations
+                    </h4>
+                    <ul style={{ paddingLeft: '20px', margin: 0 }}>
+                      <li style={{ marginBottom: '8px' }}>
+                        <strong>Pagtuon sa mga Bayani ng Pilipinas:</strong> Nahihirapan ang estudyante sa pag-alam ng mga bayani. 
+                        Gumamit ng mga larawan at simpleng kuwento tungkol sa kanila.
+                      </li>
+                      <li style={{ marginBottom: '8px' }}>
+                        <strong>Pagpapalakas ng Kaalaman sa mga Simbolo:</strong> Magaling ang estudyante sa pag-alam ng mga simbolo 
+                        ng Pilipinas. Gamitin ito para ikonekta sa ibang aspeto ng kultura at pagkakakilanlan.
+                      </li>
+                      <li style={{ marginBottom: '8px' }}>
+                        <strong>Paglilinaw ng Heograpiya:</strong> Tulungan ang estudyante na maintindihan ang mapa ng Pilipinas at 
+                        ang pagkakaiba-iba ng mga isla at rehiyon.
+                      </li>
+                      <li>
+                        <strong>Pamamahala ng Oras:</strong> Masyado matagal ang pagsagot ng estudyante sa mga tanong na mali pa rin 
+                        ang sagot. Gumawa ng mga simpleng pagsasanay na may limitadong oras para mapabuti ang kasanayan.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>

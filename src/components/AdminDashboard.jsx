@@ -129,6 +129,7 @@ import MonitorActivity from './MonitorActivity/MonitorActivity';
 import { UserList } from './UserManagement/UserList';
 import { SubjectList } from './SubjectManagement/SubjectList';
 import UploadLessons from './UploadLessons';
+
 import './AdminDashboard.css';
 
 // Analytics chart components
@@ -205,7 +206,7 @@ function AdminDashboard() {
   const activeUsersData = useMockActiveUsersData();
   const mostViewedLessonsData = useMockMostViewedLessonsData();
   const studentQuizTrendsData = useMockStudentQuizTrendsData();
-  const [activeMenu, setActiveMenu] = useState('calendar');
+  const [activeMenu, setActiveMenu] = useState('dashboard');
   const [isLoading, setIsLoading] = useState(true);
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
@@ -250,7 +251,6 @@ function AdminDashboard() {
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <FaTachometerAlt /> },
-    { id: 'calendar', label: 'Calendar', icon: <FaCalendarAlt /> },
     { id: 'manage-users', label: 'Manage Users', icon: <FaUsers /> },
     { id: 'manage-subjects', label: 'Manage Subjects', icon: <FaBook /> },
     { id: 'upload-lessons', label: 'Upload Lessons', icon: <FaUpload /> },
@@ -351,7 +351,7 @@ function AdminDashboard() {
             <>
               <div className="page-header">
                 <h1>Dashboard Overview</h1>
-                <div className="user-welcome">Welcome back, {user?.username}</div>
+                <div className="user-welcome">Welcome back, Admin{user?.username}</div>
               </div>
               <div className="dashboard-stats">
                 <div className="stat-card">
@@ -417,7 +417,7 @@ function AdminDashboard() {
                     <div className="activity-item">
                       <div className="activity-icon"><FaUsers /></div>
                       <div className="activity-details">
-                        <div className="activity-title">Group Discussion Created</div>
+                        <div className="activity-title">New Teacher Hired</div>
                         <div className="activity-time">1 day ago</div>
                       </div>
                     </div>
@@ -522,9 +522,7 @@ function AdminDashboard() {
             </>
           )}
 
-          {activeMenu === 'calendar' && (
-            <Calendar />
-          )}
+          {/* Calendar section removed */}
 
           {activeMenu === 'manage-users' && (
             <div className="section-content">
@@ -574,6 +572,8 @@ function AdminDashboard() {
               </div>
             </div>
           )}
+          
+
         </div>
       </main>
     </div>

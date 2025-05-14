@@ -15,8 +15,8 @@ const UploadModule = ({ subject, onClose, onSave }) => {
     return [
       {
         id: 1,
-        title: 'Konsepto ng Komunidad',
-        description: 'In this lesson, we will discuss the definition of community and its components. Students will learn that a community is made up of people who live together in one place, work together, and have their own roles. This lesson will also show different forms of community such as home, school, church, and market. The goal of the lesson is to develop students\' appreciation for their community as an important part of their daily lives.',
+        title: '',
+        description: '',
         resources: {
           coverPhoto: null,
           presentationVideo: null,
@@ -70,36 +70,79 @@ const UploadModule = ({ subject, onClose, onSave }) => {
 
   const handleAddLesson = () => {
     const newLessonId = lessons.length + 1;
-    setLessons([
-      ...lessons,
-      {
-        id: newLessonId,
-        title: '',
-        description: '',
-        resources: {
-          coverPhoto: null,
-          presentationVideo: null,
-          handout: null
-        }
+    const newLesson = {
+      id: newLessonId,
+      title: '',
+      description: '',
+      resources: {
+        coverPhoto: null,
+        presentationVideo: null,
+        handout: null
       }
-    ]);
+    };
+    
+    // Add the new lesson
+    setLessons([...lessons, newLesson]);
+    
+    // Scroll to the new lesson after it's added
+    setTimeout(() => {
+      const newLessonElement = document.getElementById(`lesson-${newLessonId}`);
+      if (newLessonElement) {
+        newLessonElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Add a highlight effect
+        newLessonElement.style.transition = 'background-color 1s';
+        newLessonElement.style.backgroundColor = '#f0f7ff';
+        setTimeout(() => {
+          newLessonElement.style.backgroundColor = 'transparent';
+        }, 1500);
+      }
+    }, 100);
   };
 
   const handleCancelLesson = (id) => {
-    if (lessons.length > 1) {
-      setLessons(lessons.filter(lesson => lesson.id !== id));
-    } else {
-      // If it's the last lesson, just reset it
-      setLessons([{
-        id: 1,
-        title: '',
-        description: '',
-        resources: {
-          coverPhoto: null,
-          presentationVideo: null,
-          handout: null
+    // Create a fade-out effect before removing
+    const lessonElement = document.getElementById(`lesson-${id}`);
+    if (lessonElement) {
+      lessonElement.style.transition = 'opacity 0.3s, transform 0.3s';
+      lessonElement.style.opacity = '0';
+      lessonElement.style.transform = 'translateY(-10px)';
+      
+      // Wait for animation to complete before removing
+      setTimeout(() => {
+        if (lessons.length > 1) {
+          setLessons(lessons.filter(lesson => lesson.id !== id));
+        } else {
+          // If it's the last lesson, just reset it
+          setLessons([{
+            id: 1,
+            title: '',
+            description: '',
+            resources: {
+              coverPhoto: null,
+              presentationVideo: null,
+              handout: null
+            }
+          }]);
         }
-      }]);
+      }, 300);
+    } else {
+      // Fallback if element not found
+      if (lessons.length > 1) {
+        setLessons(lessons.filter(lesson => lesson.id !== id));
+      } else {
+        // If it's the last lesson, just reset it
+        setLessons([{
+          id: 1,
+          title: '',
+          description: '',
+          resources: {
+            coverPhoto: null,
+            presentationVideo: null,
+            handout: null
+          }
+        }]);
+      }
     }
   };
 
@@ -152,16 +195,17 @@ const UploadModule = ({ subject, onClose, onSave }) => {
     const lesson = lessons.find(l => l.id === lessonId);
     if (!lesson || !lesson.resources[resourceType]) return;
     
+    // Get the upload key
     const uploadKey = lesson.resources[resourceType].uploadKey;
     
-    // Remove from progress tracking
+    // Remove the upload progress
     setUploadProgress(prev => {
       const newProgress = { ...prev };
       delete newProgress[uploadKey];
       return newProgress;
     });
     
-    // Remove from lesson
+    // Update the lesson
     setLessons(lessons.map(lesson => {
       if (lesson.id === lessonId) {
         return {
@@ -178,6 +222,7 @@ const UploadModule = ({ subject, onClose, onSave }) => {
 
   const handleSaveAsDraft = () => {
     onSave({ status: 'draft', lessons });
+    onClose();
   };
 
   const handleSaveAndContinue = () => {
@@ -186,177 +231,193 @@ const UploadModule = ({ subject, onClose, onSave }) => {
   };
 
   return (
-    <div className="upload-module-page">
-      <h1 className="upload-module-header">Upload Module</h1>
-      {lessons.map((lesson, idx) => (
-        <div key={lesson.id} className="lesson-block">
-          <div className="lesson-row">
-            <span className="lesson-label">Lesson: {lesson.id}</span>
-            <input
-              className="lesson-title-input"
-              placeholder="Enter lesson title"
-              value={lesson.title}
-              onChange={e => handleTitleChange(lesson.id, e.target.value)}
+    <div className="upload-module-modal-bg">
+      <div className="upload-module-modal-content">
+        <h2 className="upload-module-header">Upload Module</h2>
+        
+        {lessons.map((lesson) => (
+          <div className="lesson-block" key={lesson.id} id={`lesson-${lesson.id}`}>
+            <div className="lesson-row">
+              <span className="lesson-label">Lesson: {lesson.id}</span>
+              <input
+                className="lesson-title-input"
+                placeholder="Enter lesson title"
+                value={lesson.title}
+                onChange={(e) => handleTitleChange(lesson.id, e.target.value)}
+              />
+            </div>
+            
+            <div className="lesson-desc-label">Subject Description</div>
+            <textarea
+              className="lesson-desc-input"
+              placeholder="Enter subject description"
+              value={lesson.description}
+              onChange={(e) => handleDescriptionChange(lesson.id, e.target.value)}
             />
-          </div>
-          <div className="lesson-desc-label">Subject Description</div>
-          <textarea
-            className="lesson-desc-input"
-            placeholder="Enter subject description"
-            value={lesson.description}
-            onChange={e => handleDescriptionChange(lesson.id, e.target.value)}
-          ></textarea>
-          <div className="lesson-resources-row" style={{display:'flex', gap: '64px', marginTop:'52px'}}>
-            <div className="lesson-resource-col" style={{flex:1}}>
-              <div className="lesson-resource-label">Cover Photo</div>
-              <div className="upload-dropzone"
-                onClick={() => document.getElementById(`coverPhoto-${lesson.id}`).click()}>
-                <div className="upload-icon">🖼️</div>
-                <div className="upload-text">
-                  Drag & Drop image or <span className="browse-text">Browser</span>
-                  <div className="file-formats">SVG, PNG, JPG or GIF ( max 350 x 250 )</div>
+            
+            <div className="lesson-resources-row">
+              <div className="lesson-resource-col">
+                <div className="lesson-resource-label">Cover Photo</div>
+                <div 
+                  className="upload-dropzone"
+                  onClick={() => document.getElementById(`coverPhoto-${lesson.id}`).click()}
+                >
+                  <div className="upload-icon">🖼️</div>
+                  <div className="upload-text">
+                    Drag & Drop image or <span className="browse-text">browse</span>
+                    <div className="file-formats">SVG, PNG, JPG or GIF (max 800 x 400)</div>
+                  </div>
+                  <input
+                    id={`coverPhoto-${lesson.id}`}
+                    type="file"
+                    accept=".svg,.png,.jpg,.jpeg,.gif"
+                    hidden
+                    onChange={(e) => handleResourceUpload(lesson.id, 'coverPhoto', e.target.files[0])}
+                  />
                 </div>
-                <input
-                  id={`coverPhoto-${lesson.id}`}
-                  type="file"
-                  accept="image/*"
-                  hidden
-                  onChange={(e) => handleResourceUpload(lesson.id, 'coverPhoto', e.target.files[0])}
-                />
+                {lesson.resources.coverPhoto && (
+                  <div className="upload-progress">
+                    <div className="upload-progress-header">
+                      <div className="file-name">{lesson.resources.coverPhoto.file.name}</div>
+                      <button 
+                        className="cancel-upload-btn"
+                        onClick={() => handleCancelUpload(lesson.id, 'coverPhoto')}
+                        title="Remove file"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ 
+                          width: `${uploadProgress[lesson.resources.coverPhoto.uploadKey]?.progress || 0}%` 
+                        }}
+                      ></div>
+                    </div>
+                    <div className="progress-text">
+                      {uploadProgress[lesson.resources.coverPhoto.uploadKey]?.progress || 0}%
+                    </div>
+                  </div>
+                )}
               </div>
-              {lesson.resources.coverPhoto && (
-                <div className="upload-progress">
-                  <div className="upload-progress-header">
-                    <div className="file-name">{lesson.resources.coverPhoto.file.name}</div>
-                    <button 
-                      className="cancel-upload-btn"
-                      onClick={() => handleCancelUpload(lesson.id, 'coverPhoto')}
-                      title="Remove file"
-                    >
-                      ✕
-                    </button>
+              
+              <div className="lesson-resource-col">
+                <div className="lesson-resource-label">Presentation Video</div>
+                <div 
+                  className="upload-dropzone"
+                  onClick={() => document.getElementById(`presentationVideo-${lesson.id}`).click()}
+                >
+                  <div className="upload-icon">🎬</div>
+                  <div className="upload-text">
+                    Drag & Drop video or <span className="browse-text">browse</span>
+                    <div className="file-formats">MP4, AVI, MOV (max 100MB)</div>
                   </div>
-                  <div className="progress-bar">
-                    <div 
-                      className="progress-fill" 
-                      style={{ 
-                        width: `${uploadProgress[lesson.resources.coverPhoto.uploadKey]?.progress || 0}%` 
-                      }}
-                    ></div>
-                  </div>
-                  <div className="progress-text">
-                    {uploadProgress[lesson.resources.coverPhoto.uploadKey]?.progress || 0}%
-                  </div>
+                  <input
+                    id={`presentationVideo-${lesson.id}`}
+                    type="file"
+                    accept=".mp4,.avi,.mov"
+                    hidden
+                    onChange={(e) => handleResourceUpload(lesson.id, 'presentationVideo', e.target.files[0])}
+                  />
                 </div>
-              )}
-            </div>
-            <div className="lesson-resource-col" style={{flex:1}}>
-              <div className="lesson-resource-label">Presentation Video</div>
-              <div className="upload-dropzone"
-                onClick={() => document.getElementById(`presentationVideo-${lesson.id}`).click()}>
-                <div className="upload-icon">🎬</div>
-                <div className="upload-text">
-                  Drag & Drop video or <span className="browse-text">Browser</span>
-                  <div className="file-formats">SVG, PNG, JPG or GIF ( max 350 x 250 )</div>
-                </div>
-                <input
-                  id={`presentationVideo-${lesson.id}`}
-                  type="file"
-                  accept="video/*"
-                  hidden
-                  onChange={(e) => handleResourceUpload(lesson.id, 'presentationVideo', e.target.files[0])}
-                />
+                {lesson.resources.presentationVideo && (
+                  <div className="upload-progress">
+                    <div className="upload-progress-header">
+                      <div className="file-name">{lesson.resources.presentationVideo.file.name}</div>
+                      <button 
+                        className="cancel-upload-btn"
+                        onClick={() => handleCancelUpload(lesson.id, 'presentationVideo')}
+                        title="Remove file"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ 
+                          width: `${uploadProgress[lesson.resources.presentationVideo.uploadKey]?.progress || 0}%` 
+                        }}
+                      ></div>
+                    </div>
+                    <div className="progress-text">
+                      {uploadProgress[lesson.resources.presentationVideo.uploadKey]?.progress || 0}%
+                    </div>
+                  </div>
+                )}
               </div>
-              {lesson.resources.presentationVideo && (
-                <div className="upload-progress">
-                  <div className="upload-progress-header">
-                    <div className="file-name">{lesson.resources.presentationVideo.file.name}</div>
-                    <button 
-                      className="cancel-upload-btn"
-                      onClick={() => handleCancelUpload(lesson.id, 'presentationVideo')}
-                      title="Remove file"
-                    >
-                      ✕
-                    </button>
+              
+              <div className="lesson-resource-col">
+                <div className="lesson-resource-label">Handout</div>
+                <div 
+                  className="upload-dropzone"
+                  onClick={() => document.getElementById(`handout-${lesson.id}`).click()}
+                >
+                  <div className="upload-icon">📄</div>
+                  <div className="upload-text">
+                    Drag & Drop file or <span className="browse-text">browse</span>
+                    <div className="file-formats">PDF, DOC, DOCX (max 10MB)</div>
                   </div>
-                  <div className="progress-bar">
-                    <div 
-                      className="progress-fill" 
-                      style={{ 
-                        width: `${uploadProgress[lesson.resources.presentationVideo.uploadKey]?.progress || 0}%` 
-                      }}
-                    ></div>
-                  </div>
-                  <div className="progress-text">
-                    {uploadProgress[lesson.resources.presentationVideo.uploadKey]?.progress || 0}%
-                  </div>
+                  <input
+                    id={`handout-${lesson.id}`}
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    hidden
+                    onChange={(e) => handleResourceUpload(lesson.id, 'handout', e.target.files[0])}
+                  />
                 </div>
-              )}
-            </div>
-            <div className="lesson-resource-col" style={{flex:1}}>
-              <div className="lesson-resource-label">Handout</div>
-              <div className="upload-dropzone"
-                onClick={() => document.getElementById(`handout-${lesson.id}`).click()}>
-                <div className="upload-icon">📄</div>
-                <div className="upload-text">
-                  Drag & Drop file or <span className="browse-text">Browser</span>
-                  <div className="file-formats">SVG, PNG, JPG or GIF ( max 350 x 250 )</div>
-                </div>
-                <input
-                  id={`handout-${lesson.id}`}
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  hidden
-                  onChange={(e) => handleResourceUpload(lesson.id, 'handout', e.target.files[0])}
-                />
+                {lesson.resources.handout && (
+                  <div className="upload-progress">
+                    <div className="upload-progress-header">
+                      <div className="file-name">{lesson.resources.handout.file.name}</div>
+                      <button 
+                        className="cancel-upload-btn"
+                        onClick={() => handleCancelUpload(lesson.id, 'handout')}
+                        title="Remove file"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ 
+                          width: `${uploadProgress[lesson.resources.handout.uploadKey]?.progress || 0}%` 
+                        }}
+                      ></div>
+                    </div>
+                    <div className="progress-text">
+                      {uploadProgress[lesson.resources.handout.uploadKey]?.progress || 0}%
+                    </div>
+                  </div>
+                )}
               </div>
-              {lesson.resources.handout && (
-                <div className="upload-progress">
-                  <div className="upload-progress-header">
-                    <div className="file-name">{lesson.resources.handout.file.name}</div>
-                    <button 
-                      className="cancel-upload-btn"
-                      onClick={() => handleCancelUpload(lesson.id, 'handout')}
-                      title="Remove file"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <div className="progress-bar">
-                    <div 
-                      className="progress-fill" 
-                      style={{ 
-                        width: `${uploadProgress[lesson.resources.handout.uploadKey]?.progress || 0}%` 
-                      }}
-                    ></div>
-                  </div>
-                  <div className="progress-text">
-                    {uploadProgress[lesson.resources.handout.uploadKey]?.progress || 0}%
-                  </div>
-                </div>
-              )}
+            </div>
+            
+            <div className="lesson-actions-container">
+              <button className="add-more-btn" onClick={handleAddLesson}>
+                + Add More
+              </button>
+              <button 
+                className="cancel-lesson-btn"
+                onClick={() => handleCancelLesson(lesson.id)}
+                aria-label="Cancel lesson"
+              >
+                Cancel lesson
+              </button>
             </div>
           </div>
-          <div className="add-more-section" style={{marginTop:'8px'}}>
-            <button 
-              className="cancel-lesson-btn"
-              onClick={() => handleCancelLesson(lesson.id)}
-            >
-              Cancel lesson
-            </button>
-          </div>
+        ))}
+        
+        <div className="upload-module-footer">
+          <button className="save-draft-btn" onClick={handleSaveAsDraft}>
+            Save as Draft
+          </button>
+          <button className="save-continue-btn" onClick={handleSaveAndContinue}>
+            Save/Continue →
+          </button>
         </div>
-      ))}
-      <button className="add-more-btn" onClick={handleAddLesson} style={{width:'fit-content', marginBottom:24}}>
-        + Add More
-      </button>
-      <div className="upload-module-footer">
-        <button className="save-draft-btn" onClick={handleSaveAsDraft}>
-          Save as Draft
-        </button>
-        <button className="save-continue-btn" onClick={handleSaveAndContinue}>
-          Save/Continue <span className="arrow-icon">→</span>
-        </button>
       </div>
     </div>
   );

@@ -1,0 +1,429 @@
+import React, { useState, useEffect } from 'react';
+import './UploadModule.css';
+
+const UploadModule = ({ subject, onClose, onSave }) => {
+  // Load saved data from localStorage if available
+  const getSavedData = () => {
+    const savedData = localStorage.getItem(`uploadModule_${subject}`);
+    if (savedData) {
+      try {
+        return JSON.parse(savedData);
+      } catch (e) {
+        console.error('Error parsing saved data', e);
+      }
+    }
+    return [
+      {
+        id: 1,
+        title: '',
+        description: '',
+        resources: {
+          coverPhoto: null,
+          presentationVideo: null,
+          handout: null
+        }
+      }
+    ];
+  };
+
+  const [lessons, setLessons] = useState(getSavedData);
+  const [uploadProgress, setUploadProgress] = useState({});
+
+  // Simulate upload progress animation
+  useEffect(() => {
+    const progressTimers = {};
+    
+    Object.keys(uploadProgress).forEach(key => {
+      if (uploadProgress[key].progress < 100 && !uploadProgress[key].completed) {
+        progressTimers[key] = setInterval(() => {
+          setUploadProgress(prev => {
+            const current = prev[key].progress;
+            const nextProgress = Math.min(current + 5, 100);
+            const completed = nextProgress === 100;
+            
+            if (completed && progressTimers[key]) {
+              clearInterval(progressTimers[key]);
+            }
+            
+            return {
+              ...prev,
+              [key]: {
+                ...prev[key],
+                progress: nextProgress,
+                completed
+              }
+            };
+          });
+        }, 300);
+      }
+    });
+    
+    return () => {
+      Object.values(progressTimers).forEach(timer => clearInterval(timer));
+    };
+  }, [uploadProgress]);
+
+  // Save data to localStorage when lessons change
+  useEffect(() => {
+    localStorage.setItem(`uploadModule_${subject}`, JSON.stringify(lessons));
+  }, [lessons, subject]);
+
+  const handleAddLesson = () => {
+    const newLessonId = lessons.length + 1;
+    const newLesson = {
+      id: newLessonId,
+      title: '',
+      description: '',
+      resources: {
+        coverPhoto: null,
+        presentationVideo: null,
+        handout: null
+      }
+    };
+    
+    // Add the new lesson
+    setLessons([...lessons, newLesson]);
+    
+    // Scroll to the new lesson after it's added
+    setTimeout(() => {
+      const newLessonElement = document.getElementById(`lesson-${newLessonId}`);
+      if (newLessonElement) {
+        newLessonElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Add a highlight effect
+        newLessonElement.style.transition = 'background-color 1s';
+        newLessonElement.style.backgroundColor = '#f0f7ff';
+        setTimeout(() => {
+          newLessonElement.style.backgroundColor = 'transparent';
+        }, 1500);
+      }
+    }, 100);
+  };
+
+  const handleCancelLesson = (id) => {
+    // Create a fade-out effect before removing
+    const lessonElement = document.getElementById(`lesson-${id}`);
+    if (lessonElement) {
+      lessonElement.style.transition = 'opacity 0.3s, transform 0.3s';
+      lessonElement.style.opacity = '0';
+      lessonElement.style.transform = 'translateY(-10px)';
+      
+      // Wait for animation to complete before removing
+      setTimeout(() => {
+        if (lessons.length > 1) {
+          setLessons(lessons.filter(lesson => lesson.id !== id));
+        } else {
+          // If it's the last lesson, just reset it
+          setLessons([{
+            id: 1,
+            title: '',
+            description: '',
+            resources: {
+              coverPhoto: null,
+              presentationVideo: null,
+              handout: null
+            }
+          }]);
+        }
+      }, 300);
+    } else {
+      // Fallback if element not found
+      if (lessons.length > 1) {
+        setLessons(lessons.filter(lesson => lesson.id !== id));
+      } else {
+        // If it's the last lesson, just reset it
+        setLessons([{
+          id: 1,
+          title: '',
+          description: '',
+          resources: {
+            coverPhoto: null,
+            presentationVideo: null,
+            handout: null
+          }
+        }]);
+      }
+    }
+  };
+
+  const handleTitleChange = (id, value) => {
+    setLessons(lessons.map(lesson => 
+      lesson.id === id ? { ...lesson, title: value } : lesson
+    ));
+  };
+
+  const handleDescriptionChange = (id, value) => {
+    setLessons(lessons.map(lesson => 
+      lesson.id === id ? { ...lesson, description: value } : lesson
+    ));
+  };
+
+  const handleResourceUpload = (lessonId, resourceType, file) => {
+    // Create a unique key for this upload
+    const uploadKey = `${lessonId}_${resourceType}_${Date.now()}`;
+    
+    // Initialize progress for this upload
+    setUploadProgress(prev => ({
+      ...prev,
+      [uploadKey]: {
+        file,
+        progress: 0,
+        completed: false
+      }
+    }));
+    
+    // Update the lesson with the file
+    setLessons(lessons.map(lesson => {
+      if (lesson.id === lessonId) {
+        return {
+          ...lesson,
+          resources: {
+            ...lesson.resources,
+            [resourceType]: {
+              file,
+              uploadKey
+            }
+          }
+        };
+      }
+      return lesson;
+    }));
+  };
+
+  const handleCancelUpload = (lessonId, resourceType) => {
+    // Find the lesson
+    const lesson = lessons.find(l => l.id === lessonId);
+    if (!lesson || !lesson.resources[resourceType]) return;
+    
+    // Get the upload key
+    const uploadKey = lesson.resources[resourceType].uploadKey;
+    
+    // Remove the upload progress
+    setUploadProgress(prev => {
+      const newProgress = { ...prev };
+      delete newProgress[uploadKey];
+      return newProgress;
+    });
+    
+    // Update the lesson
+    setLessons(lessons.map(lesson => {
+      if (lesson.id === lessonId) {
+        return {
+          ...lesson,
+          resources: {
+            ...lesson.resources,
+            [resourceType]: null
+          }
+        };
+      }
+      return lesson;
+    }));
+  };
+
+  const handleSaveAsDraft = () => {
+    onSave({ status: 'draft', lessons });
+    onClose();
+  };
+
+  const handleSaveAndContinue = () => {
+    onSave({ status: 'complete', lessons });
+    onClose();
+  };
+
+  return (
+    <div className="upload-module-modal-bg">
+      <div className="upload-module-modal-content">
+        <h2 className="upload-module-header">Upload Module</h2>
+        
+        {lessons.map((lesson) => (
+          <div className="lesson-block" key={lesson.id} id={`lesson-${lesson.id}`}>
+            <div className="lesson-row">
+              <span className="lesson-label">Lesson: {lesson.id}</span>
+              <input
+                className="lesson-title-input"
+                placeholder="Enter lesson title"
+                value={lesson.title}
+                onChange={(e) => handleTitleChange(lesson.id, e.target.value)}
+              />
+            </div>
+            
+            <div className="lesson-desc-label">Subject Description</div>
+            <textarea
+              className="lesson-desc-input"
+              placeholder="Enter subject description"
+              value={lesson.description}
+              onChange={(e) => handleDescriptionChange(lesson.id, e.target.value)}
+            />
+            
+            <div className="lesson-resources-row">
+              <div className="lesson-resource-col">
+                <div className="lesson-resource-label">Cover Photo</div>
+                <div 
+                  className="upload-dropzone"
+                  onClick={() => document.getElementById(`coverPhoto-${lesson.id}`).click()}
+                >
+                  <div className="upload-icon">🖼️</div>
+                  <div className="upload-text">
+                    Drag & Drop image or <span className="browse-text">browse</span>
+                    <div className="file-formats">SVG, PNG, JPG or GIF (max 800 x 400)</div>
+                  </div>
+                  <input
+                    id={`coverPhoto-${lesson.id}`}
+                    type="file"
+                    accept=".svg,.png,.jpg,.jpeg,.gif"
+                    hidden
+                    onChange={(e) => handleResourceUpload(lesson.id, 'coverPhoto', e.target.files[0])}
+                  />
+                </div>
+                {lesson.resources.coverPhoto && (
+                  <div className="upload-progress">
+                    <div className="upload-progress-header">
+                      <div className="file-name">{lesson.resources.coverPhoto.file.name}</div>
+                      <button 
+                        className="cancel-upload-btn"
+                        onClick={() => handleCancelUpload(lesson.id, 'coverPhoto')}
+                        title="Remove file"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ 
+                          width: `${uploadProgress[lesson.resources.coverPhoto.uploadKey]?.progress || 0}%` 
+                        }}
+                      ></div>
+                    </div>
+                    <div className="progress-text">
+                      {uploadProgress[lesson.resources.coverPhoto.uploadKey]?.progress || 0}%
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <div className="lesson-resource-col">
+                <div className="lesson-resource-label">Presentation Video</div>
+                <div 
+                  className="upload-dropzone"
+                  onClick={() => document.getElementById(`presentationVideo-${lesson.id}`).click()}
+                >
+                  <div className="upload-icon">🎬</div>
+                  <div className="upload-text">
+                    Drag & Drop video or <span className="browse-text">browse</span>
+                    <div className="file-formats">MP4, AVI, MOV (max 100MB)</div>
+                  </div>
+                  <input
+                    id={`presentationVideo-${lesson.id}`}
+                    type="file"
+                    accept=".mp4,.avi,.mov"
+                    hidden
+                    onChange={(e) => handleResourceUpload(lesson.id, 'presentationVideo', e.target.files[0])}
+                  />
+                </div>
+                {lesson.resources.presentationVideo && (
+                  <div className="upload-progress">
+                    <div className="upload-progress-header">
+                      <div className="file-name">{lesson.resources.presentationVideo.file.name}</div>
+                      <button 
+                        className="cancel-upload-btn"
+                        onClick={() => handleCancelUpload(lesson.id, 'presentationVideo')}
+                        title="Remove file"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ 
+                          width: `${uploadProgress[lesson.resources.presentationVideo.uploadKey]?.progress || 0}%` 
+                        }}
+                      ></div>
+                    </div>
+                    <div className="progress-text">
+                      {uploadProgress[lesson.resources.presentationVideo.uploadKey]?.progress || 0}%
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <div className="lesson-resource-col">
+                <div className="lesson-resource-label">Handout</div>
+                <div 
+                  className="upload-dropzone"
+                  onClick={() => document.getElementById(`handout-${lesson.id}`).click()}
+                >
+                  <div className="upload-icon">📄</div>
+                  <div className="upload-text">
+                    Drag & Drop file or <span className="browse-text">browse</span>
+                    <div className="file-formats">PDF, DOC, DOCX (max 10MB)</div>
+                  </div>
+                  <input
+                    id={`handout-${lesson.id}`}
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    hidden
+                    onChange={(e) => handleResourceUpload(lesson.id, 'handout', e.target.files[0])}
+                  />
+                </div>
+                {lesson.resources.handout && (
+                  <div className="upload-progress">
+                    <div className="upload-progress-header">
+                      <div className="file-name">{lesson.resources.handout.file.name}</div>
+                      <button 
+                        className="cancel-upload-btn"
+                        onClick={() => handleCancelUpload(lesson.id, 'handout')}
+                        title="Remove file"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ 
+                          width: `${uploadProgress[lesson.resources.handout.uploadKey]?.progress || 0}%` 
+                        }}
+                      ></div>
+                    </div>
+                    <div className="progress-text">
+                      {uploadProgress[lesson.resources.handout.uploadKey]?.progress || 0}%
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="cancel-lesson-container">
+              <button 
+                className="cancel-lesson-btn"
+                onClick={() => handleCancelLesson(lesson.id)}
+                aria-label="Cancel lesson"
+              >
+                <span className="cancel-icon">✕</span> Cancel lesson
+              </button>
+            </div>
+          </div>
+        ))}
+        
+        <div className="add-more-container">
+          <button className="add-more-btn" onClick={handleAddLesson}>
+            <span className="add-icon">+</span> Add Item
+          </button>
+        </div>
+        
+        <div className="upload-module-footer">
+          <button className="save-draft-btn" onClick={handleSaveAsDraft}>
+            Save as Draft
+          </button>
+          <button className="save-continue-btn" onClick={handleSaveAndContinue}>
+            Save/Continue →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default UploadModule;

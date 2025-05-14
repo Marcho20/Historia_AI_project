@@ -2,12 +2,12 @@ import React, { useState, useRef } from 'react';
 import './ManageActivity.css';
 
 const subjects = [
-  { name: 'Mathematics', icon: '📘' },
-  { name: 'Science', icon: '🧪' },
-  { name: 'English', icon: '📗' },
-  { name: 'History', icon: '🏛️' },
-  { name: 'Geography', icon: '🌎' },
-  { name: 'Art', icon: '🎨' },
+  // { name: 'Mathematics', icon: '📘' },
+  // { name: 'Science', icon: '🧪' },
+  // { name: 'English', icon: '📗' },
+  { name: 'Araling Panlipunan', icon: '🏛️' },
+  // { name: 'Geography', icon: '🌎' },
+  // { name: 'Art', icon: '🎨' },
 ];
 
 const students = [
@@ -140,7 +140,7 @@ export default function ManageActivity() {
       <div className="assignment-header-row">
         <div>
           <h2>Create Assignment</h2>
-          <div className="assignment-date">Monday, April 28, 2025</div>
+          <div className="assignment-date">Saturday, May 17, 2025</div>
         </div>
         <button className="draft-btn">Save Draft</button>
       </div>
