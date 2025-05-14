@@ -6,17 +6,8 @@ import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, Times
 import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions";
 import { getStorage, connectStorageEmulator } from "firebase/storage";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyAN01Z9vZOzxHDRY4NXYXYnjVBF2o8WLlw",
-  authDomain: "historia-ai-9f2b4.firebaseapp.com",
-  projectId: "historia-ai-9f2b4",
-  storageBucket: "historia-ai-9f2b4.appspot.com", // Fixed storage bucket URL
-  messagingSenderId: "799374417411",
-  appId: "1:799374417411:web:0316dc6f2da8ee0b5af836",
-  measurementId: "G-8XKZ35CJDW"
-};
+// Import Firebase configuration from separate file
+import firebaseConfig from './firebase.config';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
